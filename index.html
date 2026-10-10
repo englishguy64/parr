@@ -1,46 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to parr.se cloudflare Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 1em 0;
-            text-align: center;
-        }
-        main {
-            padding: 2em;
-        }
-        footer {
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-            padding: 1em 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Story So Far</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Inter:wght@300;400;600&displaye>
+:root{
+    --bg:#faf9f6;
+    --text:#1d1d1d;
+    --muted:#666;
+    --accent:#b38b59;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Crimson Text", serif;
+    line-height:1.9;
+}
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:60px 20px;
+    text-align:center;
+}
+
+.hero-content{
+    max-width:900px;
+}
+
+.hero h1{
+    font-size:clamp(3rem,8vw,6rem);
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+.hero p{
+    font-family:Inter,sans-serif;
+    color:var(--muted);
+    font-size:1rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+.book{
+    max-width:760px;
+    margin:auto;
+    padding:80px 30px 160px;
+}
+
+.chapter{
+    margin-bottom:140px;
+}
+.chapter-number{
+    font-family:Inter,sans-serif;
+    font-size:.8rem;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:16px;
+}
+
+.chapter h2{
+    font-size:2.8rem;
+    margin-bottom:40px;
+}
+
+.chapter p{
+    font-size:1.4rem;
+    margin-bottom:30px;
+}
+
+blockquote{
+    font-size:2rem;
+    font-style:italic;
+    margin:80px 0;
+    padding-left:30px;
+    border-left:3px solid var(--accent);
+}
+
+footer{
+    text-align:center;
+    padding:80px 20px;
+    font-family:Inter,sans-serif;
+    color:var(--muted);
+}
+</style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to parr.se</h1>
-    </header>
-    <main>
-        <p>This is a default homepage for parr.se</p>    
-    </main>
-    <footer>
-        <p>&copy; 2025 John Parr under MIT License.</p>
-    </footer>
+
+<section class="hero">
+    <div class="hero-content">
+        <p>A Personal Journey</p>
+        <h1>The Story So Far</h1>
+    </div>
+</section>
+
+<main class="book">
+
+    <section class="chapter">
+
+        <div class="chapter-number">
+            Chapter One
+        </div>
+
+        <h2>Beginnings</h2>
+
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Integer posuere erat a ante venenatis dapibus posuere velit aliquet.
+            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+        </p>
+
+        <p>
+            Sed posuere consectetur est at lobortis. Donec id elit non mi
+            porta gravida at eget metus. Curabitur blandit tempus porttitor.
+            Maecenas faucibus mollis interdum.
+        </p>
+
+    </section>
+
+    <section class="chapter">
+
+        <div class="chapter-number">
+            Chapter Two
+        </div>
+
+        <h2>Learning and Growth</h2>
+
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae
+            elit libero, a pharetra augue. Donec sed odio dui. Cras justo odio,
+            dapibus ac facilisis in, egestas eget quam.
+        </p>
+
+        <blockquote>
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        </blockquote>
+
+        <p>
+            Vestibulum id ligula porta felis euismod semper. Nullam quis risus
+            eget urna mollis ornare vel eu leo.
+        </p>
+
+    </section>
+
+    <section class="chapter">
+
+        <div class="chapter-number">
+            Chapter Three
+        </div>
+
+        <h2>Where I Am Today</h2>
+
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porta
+            sem malesuada magna mollis euismod. Aenean lacinia bibendum nulla sed
+            consectetur.
+        </p>
+
+        <p>
+            Integer posuere erat a ante venenatis dapibus posuere velit aliquet.
+            Donec ullamcorper nulla non metus auctor fringilla.
+        </p>
+
+    </section>
+
+    <section class="chapter">
+
+        <div class="chapter-number">
+            Chapter Four
+        </div>
+
+        <h2>The Future</h2>
+
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id
+            elit non mi porta gravida at eget metus. Aenean lacinia bibendum
+            nulla sed consectetur.
+        </p>
+
+        <p>
+            Curabitur blandit tempus porttitor. Morbi leo risus, porta ac
+            consectetur ac, vestibulum at eros.
+        </p>
+
+    </section>
+
+</main>
+
+<footer>
+    The story is still being written.
+</footer>
+
 </body>
 </html>
