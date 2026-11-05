@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <p>4th Nov 2026</p>
+            <h3>What Is MCP?</h3>
+            <div class="header-links">
+                <p><a href="index.html">general</a></p>
+                <p><a href="receipe.html">receipes</a></p>
+                <p><a href="architecture.html">architecture</a></p>
+                <span class="icons"><a href="https://youtu.be/ldf6dlyTuoA" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><svg width="28" height="20" viewBox="0 0 28 20" role="img" aria-hidden="true"><rect width="28" height="20" rx="5" fill="#f00" /><path d="M11 5.5v9l8-4.5z" fill="#fff" /></svg></a><a href="#video" aria-label="Videos" title="Videos"><svg width="24" height="20"
+                            viewBox="0 0 24 20" role="img" aria-hidden="true">
+                            <rect x="1" y="3" width="15" height="14" rx="3" fill="#d1d5db" />
+                            <path d="M17 8l6-3.5v11L17 12z" fill="#d1d5db" />
+                        </svg></a><a href="https://github.com/englishguy64" target="_blank" rel="noopener"
+                        aria-label="GitHub" title="GitHub"><svg width="20" height="20" viewBox="0 0 16 16" role="img"
+                            aria-hidden="true" fill="#d1d5db">
+                            <path
+                                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                        </svg></a></span>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <div class="container">
+            <div class="quote">
+                <h3>Prompt Engineering - A New Way of Working</h3>
+
+                Many people now use prompts for personal and work tasks, and they are getting better at it.
+                Workforces have started building catalogues of skills and agents that automate the most frequent
+                prompts.<br /><br />
+
+                Prompts are written in AI chatbots, which can also be embedded in applications. Two popular examples are
+                Anthropic's Claude and OpenAI's ChatGPT. This article uses the Claude Code desktop app for
+                simplicity.<br /><br />
+
+                Chatbots reduce the need to learn, use and develop complex UIs. Information workers who cannot prompt
+                well are likely to be at a disadvantage in the future job market.<br />
+            </div>
+
+            <div class="quote">
+                <h3>Why Do AI Chatbots need MCP?</h3>
+
+                MCP lets chatbots talk to third-party applications. Without it, or specialised model training, they
+                would not know how to access their functionality or bypass their UIs. MCP connectors and servers
+                provide that knowledge.<br /><br />
+
+                MCP connectors have two parts, an MCP client (included in Claude Code) and an MCP server, which the
+                client
+                calls to discover and use its capabilities.<br /><br />
+
+                MCP is an evolving technical standard developed at modelcontextprotocol.io.<br />
+            </div>
+
+            <div class="quote">
+                <h3>How to Connect Using MCP?</h3>
+
+                Your application may already do it for you. If you are using a popular AI chatbot such as
+                Claude Code, just ask for information on how to connect an MCP connector.<br /><br />
+
+                The number of MCP servers that can be connected may depend on a subscription level, so ask the
+                subscription owner or your chatbot, if you are unsure. At the time of writing, free tier
+                subscriptions are limited.<br /><br />
+
+                Please note that some connectors require authentication (login) to gain authorisation (what can be
+                done), but chatbots usually handle this for you.<br />
+            </div>
+
+            <div class="quote">
+                <h3>MCP Server Tools and Capabilities</h3>
+
+                An MCP server has predefined tools that decide what can be done in the third-party application. AI
+                chatbots discover these tools through the MCP client, which is usually built in.<br /><br />
+
+                The application may have functionality in its own UI that is unavailable through MCP server tools,
+                either
+                deliberately or because the MCP server is not yet rich enough. Ask your AI chatbot to summarise what is
+                possible to avoid disappointment. For example, you may find you can read data but not update
+                it.<br /><br />
+
+                As AI matures, MCP servers will become richer, more powerful and more important, driven by custom
+                demand and feedback. Most software is likely to offer an MCP server.<br />
+            </div>
+
+            <div class="quote">
+                <h3>Creating Your Own MCP Solution</h3>
+
+                You can develop your own MCP connector or solution if you need to.<br /><br />
+
+                You may need to authenticate and study the underlying software APIs the tools will use. Some APIs are
+                metered on a pay-as-you-go basis, so research before you begin to avoid nasty surprises. There are
+                plenty of internet resources to help, including Claude.<br /><br />
+
+                Your MCP solutions can be hosted wherever you want, as long as your intended audience can reach them.
+                This is an infrastructure question rather than a limitation.<br />
+            </div>
+
+            <div class="quote">
+                <h3>MCP Gateways</h3>
+
+                Gateways provide a single entry point for multiple MCP servers and let you self-host your own. If you
+                are interested, ask your AI chatbot for more information.<br />
+            </div>
+
+            <div class="quote" id="video">
+                <h3>MCP Flow</h3>
+
+                <video controls preload="metadata" playsinline style="width:100%;height:auto;border-radius:8px">
+                    <source src="MCPFlow.mp4?v=2" type="video/mp4" />
+                    Your browser does not support embedded video.
+                </video>
+            </div>
+
+        </div>
+    </section>
+    <footer>
+        <p>
+            © 2026 Parr.se
+        </p>
+    </footer>
+    <script src="icons.js"></script>
+</body>
+
+</html>

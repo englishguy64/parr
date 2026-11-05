@@ -1,0 +1,139 @@
+ * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+
+ body {
+     font-family: Arial, Helvetica, sans-serif;
+     line-height: 1.6;
+     color: #222;
+     background: #fff;
+ }
+
+ .container {
+     max-width: 1100px;
+     margin: auto;
+     padding: 0 24px;
+ }
+
+ header {
+     background: #1f2937;
+     color: white;
+     padding: 50px 0;
+ }
+
+ header h1 {
+     font-size: 3rem;
+     margin-bottom: 16px;
+ }
+
+ header p {
+     font-size: 1.2rem;
+     max-width: 700px;
+ }
+
+ header a {
+     color: #d1d5db;
+     text-decoration: none;
+     font-size: 0.85rem;
+ }
+
+ .cta {
+     margin-top: 32px;
+ }
+
+ .btn {
+     display: inline-block;
+     background: #b8860b;
+     color: white;
+     text-decoration: none;
+     padding: 14px 24px;
+     border-radius: 4px;
+     font-weight: bold;
+ }
+
+ section {
+     padding: 24px 0 70px;
+ }
+
+ section .quote:first-child {
+     margin-top: 0;
+ }
+
+ h2 {
+     margin-bottom: 24px;
+     color: #1f2937;
+ }
+
+ .grid {
+     display: grid;
+     gap: 24px;
+     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+ }
+
+ .card {
+     border: 1px solid #ddd;
+     padding: 24px;
+     border-radius: 6px;
+ }
+
+ .card h3 {
+     margin-bottom: 12px;
+ }
+
+ .benefits {
+     background: #f5f7fa;
+ }
+
+ ul {
+     padding-left: 20px;
+ }
+
+ li {
+     margin-bottom: 12px;
+ }
+
+ .quote {
+     background: #f5f7fa;
+     border-left: 4px solid #b8860b;
+     padding: 24px;
+     font-style: bold;
+     margin-top: 24px;
+ }
+
+ footer {
+     background: #1f2937;
+     color: white;
+     text-align: center;
+     padding: 40px 20px;
+ }
+ .header-links {
+     display: flex;
+     align-items: center;
+     gap: clamp(20px, 3vw, 36px);
+ }
+
+ .header-links .icons {
+     display: flex;
+     align-items: center;
+     gap: clamp(20px, 3vw, 36px);
+ }
+
+ .header-links .icons a {
+     display: inline-flex;
+ }
+
+ .header-links .icons a {
+     min-width: 44px;
+     min-height: 44px;
+     justify-content: center;
+     align-items: center;
+ }
+
+ @media (max-width: 600px) {
+     .header-links {
+         flex-wrap: wrap;
+         gap: 8px 16px;
+     }
+ }
