@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="styles.css?v=3">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="title-row">
+                <h3 class="current" aria-current="page">Home</h3>
+                <h3><a href="receipes.html">Receipes</a></h3>
+                <a class="gh-link" href="https://github.com/englishguy64/parr" target="_blank" rel="noopener"
+                    aria-label="GitHub" title="GitHub"><svg viewBox="0 0 16 16" width="22" height="22"
+                        fill="currentColor" aria-hidden="true">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                    </svg></a>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <div class="container">
+            <div class="quote">
+                <h3>About Azure API Management (APIM)</h3>
+                Azure API Management or Azure APIM as it sometimes referred to. This is Microsoft Azure defined resource
+                which allows organisations to manage their API estates. Documentation is available from your Microsoft
+                Azure portal.
+            </div>
+            <div class="quote">
+                <h3>APIM Workspaces</h3>
+                An API Estate can be divided into workspaces. Each workspace can be managed in isolation. Each workspace
+                can access shared API assets but not directly from another workspace.
+            </div>
+            <div class="quote">
+                <h3>APIM Authentication (Who can do what!)</h3>
+                Azure RBAC built-in roles (management plane)<br />
+                - API Management Service Contributor: Full management of the service, its APIs, policies, products
+                and users.<br />
+                - API Management Service Operator Role: Manage the service but not its APIs or policies.<br />
+                - API Management Service Reader Role: Read-only access to the service and its entities.<br />
+                - API Management Service Workspace API Developer / Product Manager / API Developer / Reader roles:
+                the same idea, scoped to a workspace.<br />
+                - API Management Developer Portal Content Editor:Edit developer portal content.<br />
+                - Owner, Contributor, Reader: The generic Azure roles also apply at the subscription, resource group
+                or service scope.<br /><br />
+
+                Built-in APIM groups (APIM Developer Portal and Azure Subscriptions)<br />
+                - Administrators:The Service Administrators.<br />
+                - Developers: Portal Users who can sign up for Products and get Subscription Keys.<br />
+                - Guests: Unauthenticated or Limited visitors who can browse products but not subscribe.<br /> 
+            </div>
+        </div>
+    </section>
+    <footer>
+        <p>
+            © 2026 Parr.se
+        </p>
+    </footer>
+    <script src="scripts.js"></script>
+</body>
+
+</html>
