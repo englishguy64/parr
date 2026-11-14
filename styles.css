@@ -18,8 +18,8 @@
  }
 
  header {
-     background: #1f2937;
-     color: white;
+     background: #7a1f3d;
+     color: #f4d58d;
      padding: 50px 0;
  }
 
@@ -34,7 +34,7 @@
  }
 
  header a {
-     color: #d1d5db;
+     color: #f4d58d;
      text-decoration: none;
      font-size: 0.85rem;
  }
@@ -262,3 +262,20 @@
     .square:nth-child(4n+1), .square:nth-child(4n+4) { background: #7a1f3d; color: #f4d58d; }
     .square:nth-child(4n+2), .square:nth-child(4n+3) { background: #f4d58d; color: #7a1f3d; }
 }
+
+/* Icons at the bottom of each quote */
+.quote-icons { display: flex; gap: 12px; margin-top: 12px; }
+.quote-icons .icon-link { color: inherit; opacity: .7; display: inline-flex; }
+.quote-icons .icon-link:hover, .quote-icons .icon-link:focus-visible { opacity: 1; outline: none; }
+
+/* Site title on the home page */
+.site-title { margin: 0; font-family: Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: #f4d58d; }
+
+/* Warm link colour inside quote blocks (replaces default blue) */
+.quote a { color: #7a1f3d; text-decoration: none; }
+.quote a:hover, .quote a:focus-visible { color: #b8860b; text-decoration: underline; }
+.quote .quote-icons a { color: inherit; text-decoration: none; }
+
+/* Match the home page quote colours on every page's quote blocks */
+.quote h3 { color: #7a1f3d; }
+.quote .quote-icons .icon-link:hover, .quote .quote-icons .icon-link:focus-visible { color: #b8860b; }

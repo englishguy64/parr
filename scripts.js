@@ -22,7 +22,7 @@
         flyoutVideo.pause();
     }
 
-    const videos = { "mcp-square": "MCPFlow.mp4?v=2", "jwt-square": "JWTTokenToAPIM.mp4", "angular-square": "AngularEntraAuth.mp4", "tiers-square": "SubscriptionTiersAPIM.mp4" };
+    const videos = { "mcp-square": "../media/MCPFlow.mp4?v=2", "jwt-square": "../media/JWTTokenToAPIM.mp4", "angular-square": "../media/AngularEntraAuth.mp4", "tiers-square": "../media/SubscriptionTiersAPIM.mp4" };
     Object.keys(videos).forEach(function (id) {
         const el = document.getElementById(id);
         if (el) el.addEventListener("click", e => { e.preventDefault(); openFlyout(videos[id]); });
