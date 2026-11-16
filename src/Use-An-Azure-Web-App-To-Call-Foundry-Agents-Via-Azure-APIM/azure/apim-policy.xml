@@ -1,0 +1,61 @@
+<policies>
+  <inbound>
+    <base />
+    <!-- 1. CORS first: the browser's preflight (OPTIONS) carries no token, so this answers it before the token check. -->
+    <cors allow-credentials="false">
+      <allowed-origins>
+        {{ORIGINS}}
+      </allowed-origins>
+      <allowed-methods>
+        <method>GET</method>
+        <method>POST</method>
+        <method>OPTIONS</method>
+      </allowed-methods>
+      <allowed-headers>
+        <header>*</header>
+      </allowed-headers>
+      <expose-headers>
+        <header>Location</header>
+        <header>Retry-After</header>
+      </expose-headers>
+    </cors>
+    <!-- 2. The caller must present an Entra access token for this API (issued to the signed-in user by the browser). -->
+    <validate-jwt header-name="Authorization" require-scheme="Bearer" failed-validation-httpcode="401"
+                  failed-validation-error-message="A valid access token is required.">
+      <openid-config url="https://login.microsoftonline.com/{{TENANT}}/v2.0/.well-known/openid-configuration" />
+      <audiences>
+        <audience>{{CLIENT_ID}}</audience>
+        <audience>api://{{CLIENT_ID}}</audience>
+      </audiences>
+      <issuers>
+        <issuer>https://login.microsoftonline.com/{{TENANT}}/v2.0</issuer>
+      </issuers>
+      <required-claims>
+        <claim name="scp" match="any">
+          <value>access_as_user</value>
+        </claim>
+      </required-claims>
+    </validate-jwt>
+    <!-- 3. Limit each signed-in user (oid claim), not each IP, so one customer can't use up the backend. -->
+    <rate-limit-by-key calls="{{RATE_CALLS}}" renewal-period="60"
+                       counter-key="@(context.Request.Headers.GetValueOrDefault(&quot;Authorization&quot;,&quot;&quot;).Replace(&quot;Bearer &quot;,&quot;&quot;).AsJwt()?.Claims.GetValueOrDefault(&quot;oid&quot;,&quot;anonymous&quot;))" />
+    <!-- 4. Tell the backend who called, and record it for monitoring (shows in the gateway logs and Application Insights). -->
+    <set-header name="x-user-oid" exists-action="override">
+      <value>@(context.Request.Headers.GetValueOrDefault("Authorization","").Replace("Bearer ","").AsJwt()?.Claims.GetValueOrDefault("oid",""))</value>
+    </set-header>
+    <set-header name="x-user-tenant" exists-action="override">
+      <value>@(context.Request.Headers.GetValueOrDefault("Authorization","").Replace("Bearer ","").AsJwt()?.Claims.GetValueOrDefault("tid",""))</value>
+    </set-header>
+    <!-- The user's token has done its job here: do not pass it on to the backend. -->
+    <set-header name="Authorization" exists-action="delete" />
+  </inbound>
+  <backend>
+    <base />
+  </backend>
+  <outbound>
+    <base />
+  </outbound>
+  <on-error>
+    <base />
+  </on-error>
+</policies>

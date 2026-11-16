@@ -1,0 +1,44 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Manim: Convert to MP4 (High Quality)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "-m",
+            "args": [
+                "manim",
+                "-qh",
+                "${fileDirname}/HelloCircle.py",
+                "HelloCircle"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Manim: Play in Media Player (Preview)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "-m",
+            "args": [
+                "manim",
+                "-pql",
+                "${fileDirname}/HelloCircle.py",
+                "HelloCircle"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Manim: Fast Render (Low Quality)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "-m",
+            "args": [
+                "manim",
+                "-ql",
+                "${fileDirname}/HelloCircle.py",
+                "HelloCircle"
+            ],
+            "console": "integratedTerminal"
+        }
+    ]
+}

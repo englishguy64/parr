@@ -1,0 +1,90 @@
+/* Same look as the recipes site: burgundy header, gold accents, light grey boxes with a gold left border. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    color: #222;
+    background: #fff;
+}
+
+.container { max-width: 1100px; margin: auto; padding: 0 24px; }
+
+header { background: #7a1f3d; color: #f4d58d; padding: 50px 0; }
+header a { color: #f4d58d; text-decoration: none; }
+
+.title-row { display: flex; align-items: center; gap: 14px; }
+.title-row h3 { font-size: 1.17rem; font-weight: 700; margin-right: auto; }
+.gh-link { display: inline-flex; color: #f4d58d; }
+
+/* Without this, rules such as .btn { display: ... } win over the hidden attribute and the element stays visible. */
+[hidden] { display: none !important; }
+
+.notice { background: #fdecea; color: #8a1c14; border-bottom: 2px solid #c0392b; padding: 12px 0; font-size: 0.95rem; }
+.notice .container { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.notice button { background: none; border: 0; color: inherit; font-size: 1.4rem; line-height: 1; cursor: pointer; }
+
+.signin { display: flex; align-items: center; gap: 16px; font-size: 0.9rem; }
+.user-box { display: flex; flex-direction: column; align-items: center; line-height: 1.2; max-width: 180px; }
+.user-box svg { width: 34px; height: 34px; fill: #f4d58d; }
+.user-box span { margin-top: 2px; font-size: 0.8rem; text-align: center; overflow-wrap: anywhere; }
+.btn {
+    display: inline-block;
+    background: #b8860b;
+    color: #fff;
+    border: 0;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn:hover, .btn:focus-visible { background: #9c7009; outline: none; }
+.btn:disabled { opacity: .6; cursor: default; }
+header .btn { padding: 6px 14px; font-size: 0.85rem; }
+
+section { padding: 24px 0 70px; }
+
+.quote {
+    background: #f5f7fa;
+    border-left: 4px solid #b8860b;
+    padding: 24px;
+    margin-top: 24px;
+}
+section .quote:first-child { margin-top: 0; }
+.quote h3 { color: #7a1f3d; margin-bottom: 12px; }
+
+label { display: block; font-weight: bold; color: #7a1f3d; margin: 14px 0 4px; }
+label:first-of-type { margin-top: 0; }
+
+select, textarea, input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #c9ced6;
+    border-radius: 4px;
+    font: inherit;
+    background: #fff;
+}
+textarea { min-height: 110px; resize: vertical; }
+select:focus, textarea:focus, input[type="file"]:focus { outline: 2px solid #b8860b; outline-offset: 1px; }
+
+.actions { margin-top: 18px; display: flex; align-items: center; gap: 14px; }
+.status { color: #555; font-size: 0.9rem; }
+.status.error { color: #a12020; }
+
+#response {
+    white-space: pre-wrap;
+    word-break: break-word;
+    background: #fff;
+    border: 1px solid #c9ced6;
+    border-radius: 4px;
+    padding: 12px;
+    min-height: 110px;
+}
+
+@media (max-width: 600px) {
+    header { padding: 28px 0; }
+    .title-row { flex-wrap: wrap; }
+    .quote { padding: 16px; }
+}

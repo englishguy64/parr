@@ -1,0 +1,13 @@
+# Python bytecode
+__pycache__/
+*.pyc
+
+# manim render scratch (keep only the final videos in media/videos/*/480p15/*.mp4)
+manim/media/images/
+manim/media/texts/
+manim/media/videos/**/partial_movie_files/
+
+# Visual Studio / .NET build artifacts
+.vs/
+bin/
+obj/
