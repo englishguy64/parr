@@ -110,24 +110,25 @@
         tabs.appendChild(b);
     }
 
-    makeTab("ALL", "All", items.length);
     letters.forEach(function (l) { makeTab(l, l, items.filter(function (i) { return i.letter === l; }).length); });
+    // Start on the first letter (alphabetically) that has a receipe.
+    const firstKey = letters.filter(function (l) { return !buttons[l].disabled; })[0];
 
     function select(key, focus) {
-        if (!buttons[key] || buttons[key].disabled) key = "ALL";
+        if (!buttons[key] || buttons[key].disabled) key = firstKey;
         Object.keys(buttons).forEach(function (k) {
             const on = k === key;
             buttons[k].setAttribute("aria-selected", on ? "true" : "false");
             buttons[k].tabIndex = on ? 0 : -1;
         });
         items.forEach(function (i) {
-            const show = key === "ALL" || i.letter === key;
+            const show = i.letter === key;
             i.nodes.forEach(function (n) { n.hidden = !show; });
         });
         panel.setAttribute("aria-labelledby", "az-" + key);
         buttons[key].scrollIntoView({ block: "nearest", inline: "nearest" });
         if (focus) buttons[key].focus();
-        if (history.replaceState) history.replaceState(null, "", key === "ALL" ? location.pathname + location.search : "#" + key);
+        if (history.replaceState) history.replaceState(null, "", "#" + key);
     }
 
     // Keyboard navigation: left/right (and Home/End) move between the enabled tabs.
@@ -146,7 +147,7 @@
     });
 
     // Deep link: index.html#M opens the M tab; the browser back/forward and edited hash also work.
-    function fromHash() { select((location.hash || "").replace("#", "").toUpperCase() || "ALL", false); }
+    function fromHash() { select((location.hash || "").replace("#", "").toUpperCase(), false); }
     window.addEventListener("hashchange", fromHash);
     fromHash();
 })();
