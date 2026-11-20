@@ -75,3 +75,78 @@
     document.getElementById("flyout-close").addEventListener("click", dismissFlyout);
     document.addEventListener("keydown", e => { if (e.key === "Escape") dismissFlyout(); });
 })();
+
+// A-Z tabs: show only the receipes whose title starts with the chosen letter.
+// Tabs are built from the titles, so new receipes appear automatically. Letters with no receipes are disabled.
+(function () {
+    const tabs = document.getElementById("az-tabs");
+    const panel = document.getElementById("recipes-panel");
+    if (!tabs || !panel) return;
+
+    // A receipe is an h3 title plus the elements after it (its note) up to the next h3.
+    const items = Array.from(panel.querySelectorAll("h3")).map(function (h3) {
+        const nodes = [h3];
+        for (let n = h3.nextElementSibling; n && n.tagName !== "H3"; n = n.nextElementSibling) nodes.push(n);
+        const letter = ((h3.textContent.trim().match(/[A-Za-z]/) || [""])[0]).toUpperCase();
+        return { nodes: nodes, letter: letter };
+    });
+
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    const buttons = {};
+
+    function makeTab(key, label, count) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.id = "az-" + key;
+        b.textContent = label;
+        b.setAttribute("role", "tab");
+        b.setAttribute("aria-controls", "recipes-panel");
+        b.setAttribute("aria-selected", "false");
+        b.tabIndex = -1;
+        b.title = count + (count === 1 ? " receipe" : " receipes");
+        if (count === 0) { b.disabled = true; b.setAttribute("aria-disabled", "true"); }
+        b.addEventListener("click", function () { select(key, false); });
+        buttons[key] = b;
+        tabs.appendChild(b);
+    }
+
+    makeTab("ALL", "All", items.length);
+    letters.forEach(function (l) { makeTab(l, l, items.filter(function (i) { return i.letter === l; }).length); });
+
+    function select(key, focus) {
+        if (!buttons[key] || buttons[key].disabled) key = "ALL";
+        Object.keys(buttons).forEach(function (k) {
+            const on = k === key;
+            buttons[k].setAttribute("aria-selected", on ? "true" : "false");
+            buttons[k].tabIndex = on ? 0 : -1;
+        });
+        items.forEach(function (i) {
+            const show = key === "ALL" || i.letter === key;
+            i.nodes.forEach(function (n) { n.hidden = !show; });
+        });
+        panel.setAttribute("aria-labelledby", "az-" + key);
+        buttons[key].scrollIntoView({ block: "nearest", inline: "nearest" });
+        if (focus) buttons[key].focus();
+        if (history.replaceState) history.replaceState(null, "", key === "ALL" ? location.pathname + location.search : "#" + key);
+    }
+
+    // Keyboard navigation: left/right (and Home/End) move between the enabled tabs.
+    tabs.addEventListener("keydown", function (e) {
+        const enabled = Object.keys(buttons).filter(function (k) { return !buttons[k].disabled; });
+        const current = Object.keys(buttons).filter(function (k) { return buttons[k] === document.activeElement; })[0];
+        let i = enabled.indexOf(current);
+        if (i < 0) return;
+        if (e.key === "ArrowRight") i = (i + 1) % enabled.length;
+        else if (e.key === "ArrowLeft") i = (i - 1 + enabled.length) % enabled.length;
+        else if (e.key === "Home") i = 0;
+        else if (e.key === "End") i = enabled.length - 1;
+        else return;
+        e.preventDefault();
+        select(enabled[i], true);
+    });
+
+    // Deep link: index.html#M opens the M tab; the browser back/forward and edited hash also work.
+    function fromHash() { select((location.hash || "").replace("#", "").toUpperCase() || "ALL", false); }
+    window.addEventListener("hashchange", fromHash);
+    fromHash();
+})();

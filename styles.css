@@ -321,6 +321,18 @@
     .home .quote h3 .mp4-icon svg { width: 20px; height: 20px; }
 }
 
+/* A-Z tabs under the Receipes heading: horizontal, scrolls sideways on narrow screens */
+.az-tabs { display: flex; gap: 4px; margin-top: 12px; overflow-x: auto; border-bottom: 3px solid #7a1f3d; scrollbar-width: thin; }
+.az-tabs button { flex: 0 0 auto; min-width: 36px; padding: 6px 10px; border: 1px solid #ddd; border-bottom: 0; border-radius: 6px 6px 0 0;
+    background: #f5f7fa; color: #7a1f3d; font: 700 0.95rem Arial, Helvetica, sans-serif; cursor: pointer; }
+.az-tabs button:hover:not(:disabled) { background: #f4d58d; }
+.az-tabs button[aria-selected="true"] { background: #7a1f3d; border-color: #7a1f3d; color: #f4d58d; }
+.az-tabs button:disabled { background: #fff; color: #c4c4c4; cursor: default; }
+.az-tabs button:focus-visible { outline: 2px solid #b8860b; outline-offset: -2px; }
+.az-tabs + .quote { margin-top: 0; }
+.quote [hidden] { display: none !important; }
+@media (min-width: 601px) { .home .az-tabs button { font-size: 0.85rem; padding: 5px 9px; min-width: 32px; } }
+
 /* GitHub link after the MP4 icon on a quote title */
 .quote h3 .icon-link { display: inline-flex; vertical-align: middle; margin-left: 24px; color: #7a1f3d; opacity: .7; text-decoration: none; }
 .quote h3 .icon-link:hover, .quote h3 .icon-link:focus-visible { opacity: 1; color: #b8860b; outline: none; }
