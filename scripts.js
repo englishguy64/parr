@@ -89,7 +89,7 @@
         return { nodes: nodes, letter: h3.dataset.tab || "" };
     });
 
-    const tabDefs = [["foundry", "Microsoft Foundry"], ["apim", "Azure API Management"], ["other", "Other"]];
+    const tabDefs = [["foundry", "Foundry"], ["apim", "API Management"], ["other", "Other"]];
     const letters = tabDefs.map(function (t) { return t[0]; });
     const buttons = {};
 
