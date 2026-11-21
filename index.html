@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="styles.css?v=26">
+    <link rel="stylesheet" href="styles.css?v=35">
 </head>
 
 <body class="home">
@@ -31,26 +31,27 @@
 
     <section>
         <div class="container">
-            <div class="intro">
-                <h3>AI Assistance</h3>
-                <p>Claude iteration cycles were used to generate this web site, GitHub source code and MP4 videos. The
-                    rule
-                    seems to be that verification effort and lack of trust expand exponentially with solution
-                    complexity. The recommendation is to isolate and verify manageable chunks that fit your
-                    architectures. Verification of generated code is essential: read it, run it and test it against a
-                    real environment before you rely on it.</p>
-            </div>
-            <div class="intro">
-                <h3>Disclaimer</h3>
-                <p>Azure skus are for cost saving not production. SDKs used are in preview and will change. Receipes are for guidance only.</p>
-            </div>
+            <details class="intro accordion" name="intro">
+                <summary><h3>AI Assistance</h3></summary>
+                <p>Claude iteration cycles were used to generate this web site, GitHub source code and MP4 videos.</p>
+                <p>The rule seems to be that verification effort and lack of trust expand exponentially with solution
+                    complexity. This may change over time with better models and experience. The recommendation is to
+                    isolate and verify manageable chunks that fit your architectures.<br><br>
+                    Verification of generated code is
+                    essential, but resource constraints and delivery pressure are likely to loosen this over time,
+                    returning us to the previous status quo!</p>
+            </details>
+            <details class="intro accordion" name="intro">
+                <summary><h3>Disclaimer</h3></summary>
+                <p>Azure skus are for cost saving not production. SDKs used are in preview and will change. Receipes are for guidance only and will become out of date. Check latest documentation for latest innovations and breaking changes.</p>
+            </details>
              <div class="intro">
                 <h3>Receipes</h3>             
             </div>
-            <!-- A-Z tabs are built by scripts.js from the receipe titles below -->
-            <div class="az-tabs" id="az-tabs" role="tablist" aria-label="Filter receipes by first letter"></div>
+            <!-- Tabs are built by scripts.js; each receipe title has a data-tab -->
+            <div class="az-tabs" id="az-tabs" role="tablist" aria-label="Filter receipes by topic"></div>
             <div class="quote" id="recipes-panel" role="tabpanel">
-                <h3><a id="angular-square" href="#">Authorise Azure Hosted Angular SPA With Microsoft Entra ID</a> <a
+                <h3 data-tab="apim"><a id="angular-square" href="#">Authorise Azure Hosted Angular SPA With Microsoft Entra ID</a> <a
                         class="mp4-icon" href="#" data-video-for="angular-square"
                         aria-label="Play video: Authorise Azure Hosted Angular SPA With Microsoft Entra ID"
                         title="Play video"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
@@ -60,7 +61,7 @@
                         </svg></a></h3>
                 <div class="item-note">Gets tokens for the Entra-registered Angular SPA before forwarding to Azure APIM.
                 </div>
-                <h3><a id="jwt-square" href="#">Authorise Claude To Use APIs Inside Azure APIM</a> <a class="mp4-icon"
+                <h3 data-tab="apim"><a id="jwt-square" href="#">Authorise Claude To Use APIs Inside Azure APIM</a> <a class="mp4-icon"
                         href="#" data-video-for="jwt-square"
                         aria-label="Play video: Authorise Claude To Use APIs Inside Azure APIM" title="Play video"><svg
                             viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
@@ -69,7 +70,7 @@
                                 fill="#fff">MP4</text>
                         </svg></a></h3>
                 <div class="item-note">Shows how a Claude-generated JWT token is authorised by APIM policies.</div>
-                <h3><a id="tiers-square" href="#">Manage Tiered Subscriptions With Azure APIM</a> <a class="mp4-icon"
+                <h3 data-tab="apim"><a id="tiers-square" href="#">Manage Tiered Subscriptions With Azure APIM</a> <a class="mp4-icon"
                         href="#" data-video-for="tiers-square"
                         aria-label="Play video: Manage Tiered Subscriptions With Azure APIM" title="Play video"><svg
                             viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
@@ -79,7 +80,7 @@
                         </svg></a></h3>
                 <div class="item-note">Manage subscriber usage using APIM for policy management and a third party for
                     authentication.</div>
-                <h3><a id="apim-query-square" href="#">Query APIM Traffic With Claude Code And Azure MCP Server</a> <a
+                <h3 data-tab="apim"><a id="apim-query-square" href="#">Query APIM Traffic With Claude Code And Azure MCP Server</a> <a
                         class="mp4-icon" href="#" data-video-for="apim-query-square"
                         aria-label="Play video: Query APIM Traffic With Claude Code And Azure MCP Server"
                         title="Play video"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
@@ -97,7 +98,7 @@
                         </svg></a></h3>
                 <div class="item-note">Ask Claude Code in plain English and let the Azure MCP Server run the KQL against
                     your APIM gateway logs.</div>
-                <h3><a id="toolbox-square" href="#">Streamline Microsoft Foundry Architecture With Toolboxes</a> <a
+                <h3 data-tab="foundry"><a id="toolbox-square" href="#">Streamline Microsoft Foundry Architecture With Toolboxes</a> <a
                         class="mp4-icon" href="#" data-video-for="toolbox-square"
                         aria-label="Play video: Streamline Microsoft Foundry Architecture With Toolboxes"
                         title="Play video"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
@@ -115,7 +116,7 @@
                         </svg></a></h3>
                 <div class="item-note">Build, discover, consume and govern one toolbox shared by every Foundry agent.
                 </div>
-                <h3><a id="foundry-square" href="#">Use an Azure Web App to Call Foundry Agents via Azure APIM</a> <a
+                <h3 data-tab="foundry"><a id="foundry-square" href="#">Use an Azure Web App to Call Foundry Agents via Azure APIM</a> <a
                         class="mp4-icon" href="#" data-video-for="foundry-square"
                         aria-label="Play video: Use an Azure Web App to Call Foundry Agents via Azure APIM"
                         title="Play video"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
@@ -131,7 +132,7 @@
                         </svg></a></h3>
                 <div class="item-note">Uses Azure Microsoft Foundry for AI agents. Some SDKs used are in preview and
                     will change.</div>
-                <h3><a id="mcp-square" href="#">Use Claude MCP Connectors With APIs</a> <a class="mp4-icon" href="#"
+                <h3 data-tab="other"><a id="mcp-square" href="#">Use Claude MCP Connectors With APIs</a> <a class="mp4-icon" href="#"
                         data-video-for="mcp-square" aria-label="Play video: Use Claude MCP Connectors With APIs"
                         title="Play video"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
                             <rect x="1" y="5" width="22" height="14" rx="2" /><text x="12" y="15.2" text-anchor="middle"
@@ -149,7 +150,7 @@
         <video id="flyout-video" controls preload="metadata" playsinline>
         </video>
     </aside>
-    <script src="scripts.js?v=20"></script>
+    <script src="scripts.js?v=23"></script>
 </body>
 
 </html>

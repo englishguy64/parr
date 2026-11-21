@@ -76,8 +76,7 @@
     document.addEventListener("keydown", e => { if (e.key === "Escape") dismissFlyout(); });
 })();
 
-// A-Z tabs: show only the receipes whose title starts with the chosen letter.
-// Tabs are built from the titles, so new receipes appear automatically. Letters with no receipes are disabled.
+// Topic tabs: show only the receipes whose h3 has the chosen data-tab value.
 (function () {
     const tabs = document.getElementById("az-tabs");
     const panel = document.getElementById("recipes-panel");
@@ -87,11 +86,11 @@
     const items = Array.from(panel.querySelectorAll("h3")).map(function (h3) {
         const nodes = [h3];
         for (let n = h3.nextElementSibling; n && n.tagName !== "H3"; n = n.nextElementSibling) nodes.push(n);
-        const letter = ((h3.textContent.trim().match(/[A-Za-z]/) || [""])[0]).toUpperCase();
-        return { nodes: nodes, letter: letter };
+        return { nodes: nodes, letter: h3.dataset.tab || "" };
     });
 
-    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    const tabDefs = [["foundry", "Microsoft Foundry"], ["apim", "Azure API Management"], ["other", "Other"]];
+    const letters = tabDefs.map(function (t) { return t[0]; });
     const buttons = {};
 
     function makeTab(key, label, count) {
@@ -110,7 +109,7 @@
         tabs.appendChild(b);
     }
 
-    letters.forEach(function (l) { makeTab(l, l, items.filter(function (i) { return i.letter === l; }).length); });
+    tabDefs.forEach(function (t) { const l = t[0]; makeTab(l, t[1], items.filter(function (i) { return i.letter === l; }).length); });
     // Start on the first letter (alphabetically) that has a receipe.
     const firstKey = letters.filter(function (l) { return !buttons[l].disabled; })[0];
 
@@ -147,7 +146,7 @@
     });
 
     // Deep link: index.html#M opens the M tab; the browser back/forward and edited hash also work.
-    function fromHash() { select((location.hash || "").replace("#", "").toUpperCase(), false); }
+    function fromHash() { select((location.hash || "").replace("#", "").toLowerCase(), false); }
     window.addEventListener("hashchange", fromHash);
     fromHash();
 })();
