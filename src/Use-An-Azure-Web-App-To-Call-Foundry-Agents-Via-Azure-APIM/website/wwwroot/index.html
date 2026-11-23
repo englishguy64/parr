@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foundry Agents</title>
+    <link rel="stylesheet" href="styles.css?v=3">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="title-row">
+                <h3>Foundry Agents</h3>
+                <div class="signin">
+                    <div class="user-box" id="user-box" hidden aria-live="polite">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-4.42 0-8 2.24-8 5v3h16v-3c0-2.76-3.58-5-8-5z"/></svg>
+                        <span id="user"></span>
+                    </div>
+                    <button class="btn" type="button" id="login">Login</button>
+                    <button class="btn" type="button" id="logout" hidden>Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="notice" id="notice" role="alert" hidden>
+        <div class="container"><span id="notice-text"></span> <button type="button" id="notice-close" aria-label="Dismiss">&times;</button></div>
+    </div>
+
+    <section>
+        <div class="container">
+            <form id="chat-form">
+                <div class="quote">
+                    <h3>Request</h3>
+
+                    <label for="agent">Agent</label>
+                    <select id="agent" name="agent" required>
+                        <option value="support">Support (Prompt Agent)</option>
+                        <option value="research">Research (Prompt Agent)</option>
+                        <option value="orchestrator">Orchestrator (Hosted Agent)</option>
+                        <option value="order-lookup">Order Lookup (Hosted Agent)</option>
+                    </select>
+
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Type your message"></textarea>
+
+                    <div class="actions">
+                        <button class="btn" type="submit" id="submit">Submit</button>
+                        <button class="btn" type="button" id="cancel" hidden>Cancel</button>
+                        <span class="status" id="status" role="status"></span>
+                    </div>
+                </div>
+            </form>
+
+            <div class="quote">
+                <h3>Response</h3>
+                <div id="response" aria-live="polite"></div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@3.28.1/lib/msal-browser.min.js"></script>
+    <script src="app.js?v=7"></script>
+</body>
+
+</html>
