@@ -150,3 +150,34 @@
     window.addEventListener("hashchange", fromHash);
     fromHash();
 })();
+
+// Articles tabs (quarters): show the panel for the selected tab.
+(function () {
+    const tabs = document.getElementById("articles-tabs");
+    if (!tabs) return;
+    const buttons = Array.from(tabs.querySelectorAll("button"));
+
+    function select(btn, focus) {
+        buttons.forEach(function (b) {
+            const on = b === btn;
+            b.setAttribute("aria-selected", on ? "true" : "false");
+            b.tabIndex = on ? 0 : -1;
+            document.getElementById(b.dataset.panel).hidden = !on;
+        });
+        if (focus) btn.focus();
+    }
+
+    buttons.forEach(function (b) { b.addEventListener("click", function () { select(b, false); }); });
+
+    tabs.addEventListener("keydown", function (e) {
+        let i = buttons.indexOf(document.activeElement);
+        if (i < 0) return;
+        if (e.key === "ArrowRight") i = (i + 1) % buttons.length;
+        else if (e.key === "ArrowLeft") i = (i - 1 + buttons.length) % buttons.length;
+        else if (e.key === "Home") i = 0;
+        else if (e.key === "End") i = buttons.length - 1;
+        else return;
+        e.preventDefault();
+        select(buttons[i], true);
+    });
+})();

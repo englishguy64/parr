@@ -96,7 +96,7 @@
 
  .quote {
      background: #f5f7fa;
-     border-left: 4px solid #b8860b;
+     border-left: 2px solid #b8860b;
      padding: 24px;
      font-style: bold;
      margin-top: 24px;
@@ -322,7 +322,7 @@
 }
 
 /* A-Z tabs under the Receipes heading: horizontal, scrolls sideways on narrow screens */
-.az-tabs { display: flex; gap: 4px; margin-top: 12px; overflow-x: auto; border-bottom: 3px solid #7a1f3d; scrollbar-width: thin; }
+.az-tabs { display: flex; gap: 4px; margin-top: 12px; overflow-x: auto; border-bottom: 3px solid #f5f7fa; scrollbar-width: thin; }
 .az-tabs button { flex: 0 0 auto; min-width: 36px; padding: 6px 10px; border: 1px solid #ddd; border-bottom: 0; border-radius: 6px 6px 0 0;
     background: #f5f7fa; color: #7a1f3d; font: 700 0.95rem Arial, Helvetica, sans-serif; cursor: pointer; }
 @media (hover: hover) { .az-tabs button:hover:not(:disabled):not([aria-selected="true"]) { background: #f4d58d; } }
@@ -339,7 +339,9 @@
 .quote h3 .icon-link:hover, .quote h3 .icon-link:focus-visible { opacity: 1; color: #b8860b; outline: none; }
 @media (min-width: 601px) { .home .quote h3 .icon-link svg { width: 20px; height: 20px; } }
 
-/* Accordion: AI Assistance / Disclaimer (one open at a time) */
+.art-panel[hidden] { display: none; }
+
+/* Accordion: Receipes / Articles / Disclaimer (independent; user closes manually) */
 .intro.accordion summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 6px; }
 .intro.accordion summary::-webkit-details-marker { display: none; }
 .intro.accordion summary::after { content: ""; width: 8px; height: 8px; border-right: 2px solid #7a1f3d; border-bottom: 2px solid #7a1f3d; transform: rotate(45deg); margin: -4px 0 0 4px; }

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="styles.css?v=38">
+    <link rel="stylesheet" href="styles.css?v=41">
 </head>
 
 <body class="home">
@@ -31,19 +31,8 @@
 
     <section>
         <div class="container">
-            <details class="intro accordion" name="intro">
-                <summary><h3>AI Assistance</h3></summary>
-                <p>Claude iteration cycles were used to generate this web site, GitHub source code and MP4 videos.
-                    Verification effort and lack of trust expand exponentially with solution complexity.
-                    Over time verification discipline will give way to resource constraints and delivery pressure.</p>
-            </details>
-            <details class="intro accordion" name="intro">
-                <summary><h3>Disclaimer</h3></summary>
-                <p>Azure skus are for cost saving not production. SDKs used are in preview and will change. Receipes are for guidance only and will become out of date. Check latest documentation for latest innovations and breaking changes.</p>
-            </details>
-             <div class="intro">
-                <h3>Receipes</h3>             
-            </div>
+            <details class="intro accordion" open>
+                <summary><h3>Receipes</h3></summary>
             <!-- Tabs are built by scripts.js; each receipe title has a data-tab -->
             <div class="az-tabs" id="az-tabs" role="tablist" aria-label="Filter receipes by topic"></div>
             <div class="quote" id="recipes-panel" role="tabpanel">
@@ -177,6 +166,25 @@
                 <div class="item-note">Demonstrates how Claude and other AI tools use MCP to query and shield users from
                     complex APIs.</div>
             </div>
+            </details>
+            <details class="intro accordion">
+                <summary><h3>Articles</h3></summary>
+                <div class="az-tabs" id="articles-tabs" role="tablist" aria-label="Articles by quarter">
+                    <button type="button" role="tab" id="art-2026q4" data-panel="art-panel-2026q4" aria-controls="art-panel-2026q4" aria-selected="true">2026 Q4</button>
+                    <button type="button" role="tab" id="art-2027q1" data-panel="art-panel-2027q1" aria-controls="art-panel-2027q1" aria-selected="false" tabindex="-1">2027 Q1</button>
+                    <button type="button" role="tab" id="art-2027q2" data-panel="art-panel-2027q2" aria-controls="art-panel-2027q2" aria-selected="false" tabindex="-1">2027 Q2</button>
+                </div>
+                <div class="quote art-panel" id="art-panel-2026q4" role="tabpanel" aria-labelledby="art-2026q4"></div>
+                <div class="quote art-panel" id="art-panel-2027q1" role="tabpanel" aria-labelledby="art-2027q1" hidden></div>
+                <div class="quote art-panel" id="art-panel-2027q2" role="tabpanel" aria-labelledby="art-2027q2" hidden></div>
+            </details>
+            <details class="intro accordion">
+                <summary><h3>Disclaimer</h3></summary>
+                <p>Azure skus are for cost saving not production. SDKs used are in preview and will change. Receipes are for guidance only and will become out of date. Check latest documentation for latest innovations and breaking changes.</p>
+                <p>Claude iteration cycles were used to generate this web site, GitHub source code and MP4 videos.
+                    Verification effort and lack of trust expand exponentially with solution complexity.
+                    Over time verification discipline will give way to resource constraints and delivery pressure.</p>
+            </details>
         </div>
     </section>
     <aside class="flyout" id="flyout" aria-label="Video" aria-hidden="true">
@@ -185,7 +193,7 @@
         <video id="flyout-video" controls preload="metadata" playsinline>
         </video>
     </aside>
-    <script src="scripts.js?v=27"></script>
+    <script src="scripts.js?v=28"></script>
 </body>
 
 </html>
