@@ -8,7 +8,7 @@ A web page speaks AG-UI to a Backend, and the Backend speaks AG-UI to the page a
 
 - **Website** - one page with three AG-UI use cases and a live list of every event. Speaks AG-UI with `fetch` and Server-Sent Events, no library and no build step
 - **Backend** (ASP.NET, .NET 10) - one AG-UI endpoint per use case. Calls the Foundry agents with its own identity
-- **Hosted agents** (2, in Foundry) - `agui-support` and `agui-research`, in the `hostedagents` folder. They deploy from source with the Foundry Toolkit for VS Code, with no container. The Backend creates nothing in Foundry: it calls these agents by name
+- **Hosted agents** (2, in Foundry) - `agui-support` and `agui-research`, in the `hostedagents` folder. They deploy from source, with no container, using the Bicep and PowerShell scripts in the `azure` folder. The Backend creates nothing in Foundry: it calls these agents by name
 
 ## Architecture
 
@@ -244,4 +244,5 @@ dotnet build backend
 ## Notes
 
 - **Preview packages**: `Microsoft.Agents.AI.Hosting.AGUI.AspNetCore` and `Microsoft.Agents.AI.Foundry` are preview and will change. Check the API against the current [AG-UI documentation](https://learn.microsoft.com/en-us/agent-framework/integrations/by-component/ui/ag-ui/?pivots=programming-language-csharp#when-to-use-ag-ui) before relying on it
-- **Verified**: streaming, progress events and the approve, reject and cancel paths were run end to end against the stub. Calls to real Foundry agents were not run from this repository, so test them with your own project
+- **Verified**: the three AG-UI endpoints were run against the real `agui-support` and `agui-research` hosted agents in a Foundry project: streaming text, the run completing, and the approval interrupt. The approve, reject and cancel paths were run against the stub, not against a live agent. The website was exercised in a browser against the stub only
+- **Hosted agent protocol**: the agents must be registered with the Responses protocol at version 2.0.0. The scripts in `azure` do this. The Foundry Toolkit wizard registered 1.0.0 in my run
