@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AG-UI with Foundry Agents</title>
+    <link rel="stylesheet" href="styles.css?v=1">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="title-row">
+                <h3>Using AG-UI protocol with Foundry Agents</h3>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <div class="container">
+            <div class="quote">
+                <h3>Use case</h3>
+                <div class="tabs" role="tablist" id="tabs">
+                    <button type="button" role="tab" class="tab active" data-case="chat" aria-selected="true">Stream a chat answer</button>
+                    <button type="button" role="tab" class="tab" data-case="progress" aria-selected="false">Show live agent progress</button>
+                    <button type="button" role="tab" class="tab" data-case="approval" aria-selected="false">Approve before an action</button>
+                </div>
+                <p class="about" id="about"></p>
+
+                <form id="run-form">
+                    <label for="message" id="message-label">Message</label>
+                    <textarea id="message" name="message"></textarea>
+                    <div class="actions">
+                        <button class="btn" type="submit" id="send">Send</button>
+                        <button class="btn" type="button" id="stop" hidden>Stop</button>
+                        <button class="btn secondary" type="button" id="reset">New conversation</button>
+                        <span class="status" id="status" role="status"></span>
+                    </div>
+                </form>
+            </div>
+
+            <div class="quote" id="steps-box" hidden>
+                <h3>Agent progress</h3>
+                <ol class="steps" id="steps">
+                    <li data-step="started">Run started</li>
+                    <li data-step="writing">Agent is writing</li>
+                    <li data-step="finished">Run finished</li>
+                </ol>
+                <div class="meter"><span id="meter-events">0 events</span> <span id="meter-chars">0 characters</span> <span id="meter-time">0.0 s</span></div>
+            </div>
+
+            <div class="quote">
+                <h3>Response</h3>
+                <div id="response" aria-live="polite"></div>
+                <div class="approval" id="approval" hidden>
+                    <p><strong>The agent wants to call <code id="approval-tool"></code></strong></p>
+                    <p>A person must decide. The run is paused until you do.</p>
+                    <div class="actions">
+                        <button class="btn ok" type="button" id="approve">Approve</button>
+                        <button class="btn danger" type="button" id="reject">Reject</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quote">
+                <h3>AG-UI events</h3>
+                <p class="about">Every event the backend streams, in order, as it arrives.</p>
+                <ul class="events" id="events"></ul>
+            </div>
+        </div>
+    </section>
+
+    <script src="app.js?v=1"></script>
+</body>
+
+</html>

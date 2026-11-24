@@ -1,0 +1,139 @@
+/* Same look as the recipes site: burgundy header, gold accents, light grey boxes with a gold left border. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    color: #222;
+    background: #fff;
+}
+
+.container { max-width: 1100px; margin: auto; padding: 0 24px; }
+
+header { background: #7a1f3d; color: #f4d58d; padding: 50px 0; }
+.title-row h3 { font-size: 1.17rem; font-weight: 700; }
+
+[hidden] { display: none !important; }
+
+section { padding: 24px 0 70px; }
+
+.quote {
+    background: #f5f7fa;
+    border-left: 4px solid #b8860b;
+    padding: 24px;
+    margin-top: 24px;
+}
+section .quote:first-child { margin-top: 0; }
+.quote h3 { color: #7a1f3d; margin-bottom: 12px; }
+
+.btn {
+    display: inline-block;
+    background: #b8860b;
+    color: #fff;
+    border: 0;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+.btn:hover, .btn:focus-visible { background: #9c7009; outline: none; }
+.btn:disabled { opacity: .6; cursor: default; }
+.btn.secondary { background: #6b7280; }
+.btn.secondary:hover { background: #4b5563; }
+.btn.ok { background: #2e7d5b; }
+.btn.ok:hover { background: #246649; }
+.btn.danger { background: #b42318; }
+.btn.danger:hover { background: #8f1c13; }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.tab {
+    background: #fff;
+    color: #7a1f3d;
+    border: 2px solid #7a1f3d;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+.tab.active { background: #7a1f3d; color: #fff; }
+.about { color: #444; font-size: 0.95rem; margin-bottom: 14px; }
+
+label { display: block; font-weight: bold; color: #7a1f3d; margin: 0 0 4px; }
+textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 10px;
+    border: 1px solid #c9ced6;
+    border-radius: 4px;
+    font: inherit;
+    background: #fff;
+    resize: vertical;
+}
+textarea:focus { outline: 2px solid #b8860b; outline-offset: 1px; }
+
+.actions { margin-top: 16px; display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.status { color: #555; font-size: 0.9rem; }
+.status.error { color: #a12020; }
+
+#response {
+    white-space: pre-wrap;
+    word-break: break-word;
+    background: #fff;
+    border: 1px solid #c9ced6;
+    border-radius: 4px;
+    padding: 12px;
+    min-height: 110px;
+}
+#response .turn { margin-bottom: 10px; }
+#response .who { font-weight: bold; color: #7a1f3d; }
+#response .caret::after { content: "\258B"; color: #b8860b; margin-left: 2px; animation: blink 1s steps(2) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+.approval {
+    margin-top: 14px;
+    background: #fff8e6;
+    border: 2px solid #b8860b;
+    border-radius: 4px;
+    padding: 14px 16px;
+}
+.approval code { background: #f0e4c0; padding: 1px 6px; border-radius: 3px; }
+
+.steps { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; }
+.steps li {
+    padding: 6px 14px;
+    border-radius: 14px;
+    background: #e5e7eb;
+    color: #6b7280;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+.steps li.active { background: #b8860b; color: #fff; }
+.steps li.done { background: #2e7d5b; color: #fff; }
+.meter { margin-top: 12px; color: #444; font-size: 0.9rem; display: flex; gap: 20px; }
+
+.events { list-style: none; max-height: 320px; overflow: auto; background: #fff; border: 1px solid #c9ced6; border-radius: 4px; }
+.events:empty::before { content: "No events yet."; display: block; padding: 10px 12px; color: #6b7280; }
+.events li {
+    display: flex;
+    gap: 12px;
+    padding: 4px 12px;
+    border-bottom: 1px solid #eef0f3;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.82rem;
+}
+.events .t { color: #6b7280; min-width: 60px; }
+.events .type { font-weight: bold; min-width: 210px; }
+.events .detail { color: #444; overflow-wrap: anywhere; }
+.events .type.run { color: #0f766e; }
+.events .type.text { color: #6d4c9f; }
+.events .type.tool { color: #9a3412; }
+.events .type.fin { color: #2e7d5b; }
+.events .type.err { color: #b42318; }
+
+@media (max-width: 600px) {
+    header { padding: 28px 0; }
+    .quote { padding: 16px; }
+    .events .type { min-width: 150px; }
+}

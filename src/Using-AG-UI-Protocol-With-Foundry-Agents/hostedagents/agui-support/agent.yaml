@@ -1,0 +1,4 @@
+name: agui-support
+resources:
+  cpu: '0.5'
+  memory: 1.0Gi

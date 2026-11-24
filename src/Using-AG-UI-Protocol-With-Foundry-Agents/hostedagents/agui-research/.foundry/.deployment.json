@@ -1,0 +1,12 @@
+{
+  "projectId": "a4e93a40-f4e6-4736-8911-8d5b0230d049",
+  "hostedAgentDeployOptions": {
+    "deploymentMethod": "zip",
+    "zipPackageMode": "remote",
+    "zipRuntime": "dotnet_10",
+    "zipEntryPoint": [
+      "dotnet",
+      "agui-research.dll"
+    ]
+  }
+}
