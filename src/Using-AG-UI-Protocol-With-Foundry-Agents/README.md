@@ -30,6 +30,7 @@ Browser ◄── 3. RUN_STARTED · TEXT_MESSAGE_START / CONTENT / END · TOOL_C
 
 | Folder | Purpose |
 |--------|---------|
+| `azure` | Bicep and PowerShell that deploy the two hosted agents from source. See [azure/README.md](azure/README.md) |
 | `hostedagents` | The two Foundry hosted agents, `agui-support` and `agui-research`. See [hostedagents/README.md](hostedagents/README.md) |
 | `backend` | The AG-UI server: `Program.cs` (endpoints), `ApprovalGateAgent.cs` (human in the loop), `StubChatClient.cs` (local stand-in for Foundry) |
 | `website` | The page: `index.html`, `app.js`, `styles.css` and `config.json`. Plain static files, no server code |
@@ -121,7 +122,7 @@ The server keeps no state between the two runs. The decision is all the second r
 - The [.NET 10 SDK](https://dotnet.microsoft.com/download) for the Backend (`dotnet --version` should show 10.x)
 - Any static file server for the Website. The examples use Python (`python --version`). Node (`npx serve`) works too
 - Two terminals, one for the Backend and one for the Website
-- For real Foundry agents only: the Azure CLI, and the two hosted agents deployed as described in [hostedagents/README.md](hostedagents/README.md)
+- For real Foundry agents only: the Azure CLI, and the two hosted agents deployed with the scripts in [azure/README.md](azure/README.md)
 
 ### 1. Run with the stub (no Azure needed)
 

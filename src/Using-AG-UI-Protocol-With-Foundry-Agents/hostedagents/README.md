@@ -21,7 +21,17 @@ Each agent is a small ASP.NET app (`Program.cs`) that creates a chat agent on a 
 
 If your model deployment has another name, change `AZURE_AI_MODEL_DEPLOYMENT_NAME` in `azure.yaml`.
 
-## Deploy with the Foundry Toolkit
+## Deploy with the scripts (recommended)
+
+The Foundry Toolkit wizard registered these agents with the Responses protocol at 1.0.0, but the code serves 2.0.0, so calls fail. The Bicep and PowerShell scripts in [../azure/README.md](../azure/README.md) deploy both agents with 2.0.0:
+
+```powershell
+cd ..zure
+._deploy-hostedagents.ps1
+._create-hostedagentroles.ps1
+```
+
+## Or deploy with the Foundry Toolkit
 
 Do this once for each agent folder.
 
@@ -70,13 +80,24 @@ The Backend calls each agent through its own endpoint, `<project endpoint>/agent
 
 | Issue | Solution |
 |-------|----------|
-| `424 session_not_ready` when the agent is called | Foundry's `/readiness` check did not get a 200 within the timeout. The agent must listen on port 8088. Each `Program.cs` binds `PORT` (8088) in code because a source deployment has no Dockerfile to set it. Redeploy with **Existing agent** after changing it |
+| `424 session_not_ready` when the agent is called | The agent crashed at startup, or `/readiness` did not return 200 in time. Read the startup log (below) to see which. Two causes seen so far: `builder.Services.AddFoundryResponses(...)` throws in a hosted Foundry environment (use `builder.AddFoundryResponses(...)` on the host builder), and the app must listen on port 8088 (each `Program.cs` binds `PORT`, because a source deployment has no Dockerfile to set it). Redeploy with **Existing agent** after changing the code |
 | The call takes about a minute, then fails | Same cause: Foundry waits for the session to become ready, then gives up |
 | Still failing after redeploying | Check the agent's logs in the Foundry portal or the Toolkit. A startup error shows there, for example a missing model deployment or no access to the project |
+
+### Read the startup log
+
+A failed call returns an `x-agent-session-id` header. Stream that session's log (replace the placeholders):
+
+```powershell
+$token = az account get-access-token --resource https://ai.azure.com --query accessToken -o tsv
+curl.exe -N -H "Authorization: Bearer $token" -H "Accept: text/event-stream" "<project endpoint>/agents/agui-support/versions/<version>/sessions/<session id>:logstream?api-version=v1"
+```
+
+Look for `stderr` lines. An unhandled exception at startup is shown there with its stack trace.
 
 ## Notes
 
 - **Preview**: Hosted Agents and the packages (`Microsoft.Agents.AI.Foundry.Hosting`, `Microsoft.Agents.AI.Foundry`) are preview. Check against the current documentation before relying on them
-- **Not tested against Foundry**: both projects build, and each hosts `/responses` and `/readiness` on port 8088 locally. They have not been deployed or called against a real Foundry project from this repository
+- **Tested against Foundry**: deployed with the scripts in `../azure` and called directly and through the backend over AG-UI. Not tested with the Toolkit wizard, which registered protocol 1.0.0 in my run
 - **Names**: an agent name must start and end with a letter or digit, may contain hyphens, and can be at most 63 characters
 - **Why hosted?** Instructions-only agents also work as Prompt Agents. A hosted agent is the right choice once an agent needs your own code, for example calling your order system

@@ -36,7 +36,10 @@ var builder = WebApplication.CreateBuilder(args);
 // the readiness check never succeeds and Foundry reports "session_not_ready".
 builder.WebHost.UseUrls($"http://0.0.0.0:{Environment.GetEnvironmentVariable("PORT") ?? "8088"}");
 
-builder.Services.AddFoundryResponses(agent);
+// Register on the host builder, not on builder.Services. In a hosted Foundry environment the response-storage settings must bind
+// from one configuration section, and the IServiceCollection overload throws at startup ("cannot be used in a hosted Foundry
+// environment"), so the agent never becomes ready and calls fail with 424 session_not_ready.
+builder.AddFoundryResponses(agent);
 
 var app = builder.Build();
 app.MapFoundryResponses();
