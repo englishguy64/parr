@@ -1,4 +1,4 @@
-# Simple Durability Demo Using Temporal
+# Protect Long And Multi-Step Processes Using Temporal Durability Execution
 
 A small C# order workflow that survives crashes. It matches the Manim diagram for this recipe: a Client starts a Workflow, a Worker runs the Workflow and its Activities, and the Temporal Service records every step in an Event History so a failed worker can pick up exactly where it left off.
 
@@ -12,7 +12,7 @@ One .NET 10 console app does both jobs. Run it as a **worker** or as a **client*
 | `OrderWorkflow.cs` | The Workflow: reserve stock, charge card, ship order |
 | `OrderActivities.cs` | The three Activities that do the real work |
 | `Order.cs` | The data passed into the Workflow |
-| `Simple-Durability-Demo-Using-Temporal.csproj` | .NET 10 project with the `Temporalio` NuGet package |
+| `Protect-Long-And-Multi-Step-Processes-Using-Temporal-Durability-Execution.csproj` | .NET 10 project with the `Temporalio` NuGet package |
 | `Dockerfile` | Builds the app into a container image |
 | `docker-compose.yml` | Runs a local Temporal server and a worker in containers |
 

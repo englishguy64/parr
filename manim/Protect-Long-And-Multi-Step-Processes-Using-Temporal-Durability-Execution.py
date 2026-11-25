@@ -77,7 +77,9 @@ class DurableTemporal(Scene):
         super().wait(duration * SLOW, **kwargs)
 
     def construct(self):
-        title = Text("Simple Durability Demo Using Temporal", font_size=28, color=BURGUNDY).to_edge(UP, buff=0.2)
+        title = Text("Protect Long And Multi-Step Processes Using Temporal Durability Execution", font_size=28, color=BURGUNDY).to_edge(UP, buff=0.2)
+        if title.width > 12.6:
+            title.scale_to_fit_width(12.6)
         self.add(title)
         status = Text("Temporal runs your code as a Durable Workflow", font_size=20).move_to([0, STATUS_Y, 0])
         self.add(status)

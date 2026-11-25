@@ -10,6 +10,6 @@ RUN dotnet publish -c Release -o /app --no-restore
 FROM mcr.microsoft.com/dotnet/runtime:10.0
 WORKDIR /app
 COPY --from=build /app .
-ENTRYPOINT ["dotnet", "Simple-Durability-Demo-Using-Temporal.dll"]
+ENTRYPOINT ["dotnet", "Protect-Long-And-Multi-Step-Processes-Using-Temporal-Durability-Execution.dll"]
 # Default to running a worker. Pass "client" to start a workflow instead.
 CMD ["worker"]
