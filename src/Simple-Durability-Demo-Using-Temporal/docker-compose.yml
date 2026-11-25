@@ -1,0 +1,18 @@
+# Runs a local Temporal dev server and a worker. Start a workflow with:
+#   docker compose run --rm worker client
+services:
+  temporal:
+    image: temporalio/temporal:latest
+    command: server start-dev --ip 0.0.0.0
+    ports:
+      - "7233:7233"   # Temporal Frontend (clients and workers connect here)
+      - "8233:8233"   # Web UI
+
+  worker:
+    build: .
+    command: ["worker"]
+    environment:
+      TEMPORAL_ADDRESS: temporal:7233
+    depends_on:
+      - temporal
+    restart: on-failure   # the worker retries until the Temporal server is ready
