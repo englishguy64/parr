@@ -1,3 +1,10 @@
+/* Colour variables */
+:root {
+    --primary: #7a1f3d; --on-primary: #f4d58d; --link: #7a1f3d; --accent: #b8860b;
+    --panel: #f5f7fa; --bg: #fff; --text: #222; --text-strong: #1f2937; --muted: #6b7280; --note: #4b5563;
+    --border: #ddd; --header-note: #e8c8d2; --tab-hover: #f4d58d;
+}
+
  * {
      margin: 0;
      padding: 0;
@@ -7,8 +14,8 @@
  body {
      font-family: Arial, Helvetica, sans-serif;
      line-height: 1.6;
-     color: #222;
-     background: #fff;
+     color: var(--text);
+     background: var(--bg);
  }
 
  .container {
@@ -18,8 +25,8 @@
  }
 
  header {
-     background: #7a1f3d;
-     color: #f4d58d;
+     background: var(--primary);
+     color: var(--on-primary);
      padding: 50px 0;
  }
 
@@ -34,7 +41,7 @@
  }
 
  header a {
-     color: #f4d58d;
+     color: var(--on-primary);
      text-decoration: none;
      font-size: 0.85rem;
  }
@@ -45,7 +52,7 @@
 
  .btn {
      display: inline-block;
-     background: #b8860b;
+     background: var(--accent);
      color: white;
      text-decoration: none;
      padding: 14px 24px;
@@ -63,7 +70,7 @@
 
  h2 {
      margin-bottom: 24px;
-     color: #1f2937;
+     color: var(--text-strong);
  }
 
  .grid {
@@ -73,7 +80,7 @@
  }
 
  .card {
-     border: 1px solid #ddd;
+     border: 1px solid var(--border);
      padding: 24px;
      border-radius: 6px;
  }
@@ -83,7 +90,7 @@
  }
 
  .benefits {
-     background: #f5f7fa;
+     background: var(--panel);
  }
 
  ul {
@@ -95,8 +102,8 @@
  }
 
  .quote {
-     background: #f5f7fa;
-     border-left: 2px solid #b8860b;
+     background: var(--panel);
+     border-left: 2px solid var(--accent);
      padding: 24px;
      font-style: bold;
      margin-top: 24px;
@@ -186,8 +193,8 @@
     text-align: center;
 }
 
-.square.light { background: #f4d58d; color: #7a1f3d; }
-.square.dark  { background: #7a1f3d; color: #f4d58d; }
+.square.light { background: var(--on-primary); color: var(--primary); }
+.square.dark  { background: var(--primary); color: var(--on-primary); }
 
 .square:hover,
 .square:focus-visible {
@@ -259,15 +266,15 @@
     .square { aspect-ratio: auto; height: 100%; min-height: 0; overflow: hidden; font-size: 4.2cqw; }
     .square.first { font-size: 4.2cqw; }
     /* checkerboard for 2 columns */
-    .square:nth-child(4n+1), .square:nth-child(4n+4) { background: #7a1f3d; color: #f4d58d; }
-    .square:nth-child(4n+2), .square:nth-child(4n+3) { background: #f4d58d; color: #7a1f3d; }
+    .square:nth-child(4n+1), .square:nth-child(4n+4) { background: var(--primary); color: var(--on-primary); }
+    .square:nth-child(4n+2), .square:nth-child(4n+3) { background: var(--on-primary); color: var(--primary); }
 }
 
 /* Icons at the bottom of each quote */
 .quote-icons { display: flex; gap: 12px; margin-top: 12px; }
-.quote h3 .mp4-icon { color: #7a1f3d; opacity: .7; display: inline-flex; vertical-align: middle; margin-left: 8px; cursor: pointer; text-decoration: none; }
-.quote h3 .mp4-icon:hover, .quote h3 .mp4-icon:focus-visible { opacity: 1; color: #b8860b; outline: none; text-decoration: none; }
-.quote-icons .mp4-icon { color: #7a1f3d; opacity: .7; display: inline-flex; cursor: default; pointer-events: none; }
+.quote h3 .mp4-icon { color: var(--link); opacity: .7; display: inline-flex; vertical-align: middle; margin-left: 8px; cursor: pointer; text-decoration: none; }
+.quote h3 .mp4-icon:hover, .quote h3 .mp4-icon:focus-visible { opacity: 1; color: var(--accent); outline: none; text-decoration: none; }
+.quote-icons .mp4-icon { color: var(--link); opacity: .7; display: inline-flex; cursor: default; pointer-events: none; }
 .quote-icons .icon-link { color: inherit; opacity: .7; display: inline-flex; }
 .quote-icons .icon-link:hover, .quote-icons .icon-link:focus-visible { opacity: 1; outline: none; }
 
@@ -277,33 +284,34 @@
 .title-row .li-link + .gh-link { margin-left: 14px; }
 
 /* Header note: left of the icons, vertically centred with them, in a soft rose that reads well on the maroon header */
-.title-row .header-note { flex: 1; min-width: 0; align-self: center; margin: 0; color: #e8c8d2; font-size: 1.17rem; line-height: 1.4; }
+.title-row .header-note { flex: 1; min-width: 0; align-self: center; margin: 0; color: var(--header-note); font-size: 1.17rem; line-height: 1.4; }
 @media (min-width: 601px) { .home .title-row .header-note { font-size: 0.95rem; } }
 .title-row .header-note + .li-link { margin-left: 28px; }
 
 /* Short note under a recipe title */
-.quote .item-note { color: #4b5563; font-size: 1rem; line-height: 1.4; margin: 0 0 8px; }
+.quote .item-date { color: var(--muted); font-size: 0.85rem; margin: 0 0 4px; }
+.quote .item-note { color: var(--note); font-size: 1rem; line-height: 1.4; margin: 0 0 8px; }
 @media (min-width: 601px) { .home .quote .item-note { font-size: 0.8rem; } }
 
 /* Line above the recipe list: same font size as the list titles */
-.intro { color: #1f2937; font-size: 1.17rem; line-height: 1.5; }
+.intro { color: var(--text-strong); font-size: 1.17rem; line-height: 1.5; }
 @media (min-width: 601px) { .home .intro { font-size: 0.95rem; } }
 .intro p + p { margin-top: 8px; }
-.intro h3 { color: #7a1f3d; font-size: 1.17rem; margin-top: 16px; }
+.intro h3 { color: var(--link); font-size: 1.17rem; margin-top: 16px; }
 .intro h3 + p { margin-top: 4px; }
 @media (min-width: 601px) { .home .intro h3 { font-size: 0.95rem; } }
 
 /* Site title on the home page */
-.site-title { margin: 0; font-family: Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: #f4d58d; }
+.site-title { margin: 0; font-family: Arial, Helvetica, sans-serif; font-size: 32px; font-weight: bold; color: var(--on-primary); }
 
 /* Warm link colour inside quote blocks (replaces default blue) */
-.quote a { color: #7a1f3d; text-decoration: none; }
-.quote a:hover, .quote a:focus-visible { color: #b8860b; text-decoration: underline; }
+.quote a { color: var(--link); text-decoration: none; }
+.quote a:hover, .quote a:focus-visible { color: var(--accent); text-decoration: underline; }
 .quote .quote-icons a { color: inherit; text-decoration: none; }
 
 /* Match the home page quote colours on every page's quote blocks */
-.quote h3 { color: #7a1f3d; }
-.quote .quote-icons .icon-link:hover, .quote .quote-icons .icon-link:focus-visible { color: #b8860b; }
+.quote h3 { color: var(--link); }
+.quote .quote-icons .icon-link:hover, .quote .quote-icons .icon-link:focus-visible { color: var(--accent); }
 
 /* Home icon sits just left of the GitHub icon */
 .title-row .home-link + .gh-link { margin-left: 14px; }
@@ -322,21 +330,21 @@
 }
 
 /* A-Z tabs under the Receipes heading: horizontal, scrolls sideways on narrow screens */
-.az-tabs { display: flex; gap: 4px; margin-top: 12px; overflow-x: auto; border-bottom: 3px solid #f5f7fa; scrollbar-width: thin; }
-.az-tabs button { flex: 0 0 auto; min-width: 36px; padding: 6px 10px; border: 1px solid #ddd; border-bottom: 0; border-radius: 6px 6px 0 0;
-    background: #f5f7fa; color: #7a1f3d; font: 700 0.95rem Arial, Helvetica, sans-serif; cursor: pointer; }
-@media (hover: hover) { .az-tabs button:hover:not(:disabled):not([aria-selected="true"]) { background: #f4d58d; } }
+.az-tabs { display: flex; gap: 4px; margin-top: 12px; overflow-x: auto; border-bottom: 3px solid var(--panel); scrollbar-width: thin; }
+.az-tabs button { flex: 0 0 auto; min-width: 36px; padding: 6px 10px; border: 1px solid var(--border); border-bottom: 0; border-radius: 6px 6px 0 0;
+    background: var(--panel); color: var(--link); font: 700 0.95rem Arial, Helvetica, sans-serif; cursor: pointer; }
+@media (hover: hover) { .az-tabs button:hover:not(:disabled):not([aria-selected="true"]) { background: var(--tab-hover); } }
 .az-tabs button { -webkit-tap-highlight-color: transparent; }
-.az-tabs button[aria-selected="true"] { background: #7a1f3d; border-color: #7a1f3d; color: #f4d58d; }
-.az-tabs button:disabled { background: #fff; color: #c4c4c4; cursor: default; }
-.az-tabs button:focus-visible { outline: 2px solid #b8860b; outline-offset: -2px; }
+.az-tabs button[aria-selected="true"] { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.az-tabs button:disabled { background: var(--bg); color: var(--muted); cursor: default; }
+.az-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .az-tabs + .quote { margin-top: 0; }
 .quote [hidden] { display: none !important; }
 @media (min-width: 601px) { .home .az-tabs button { font-size: 0.85rem; padding: 5px 9px; min-width: 32px; } }
 
 /* GitHub link after the MP4 icon on a quote title */
-.quote h3 .icon-link { display: inline-flex; vertical-align: middle; margin-left: 24px; color: #7a1f3d; opacity: .7; text-decoration: none; }
-.quote h3 .icon-link:hover, .quote h3 .icon-link:focus-visible { opacity: 1; color: #b8860b; outline: none; }
+.quote h3 .icon-link { display: inline-flex; vertical-align: middle; margin-left: 24px; color: var(--link); opacity: .7; text-decoration: none; }
+.quote h3 .icon-link:hover, .quote h3 .icon-link:focus-visible { opacity: 1; color: var(--accent); outline: none; }
 @media (min-width: 601px) { .home .quote h3 .icon-link svg { width: 20px; height: 20px; } }
 
 .art-panel[hidden] { display: none; }
@@ -344,17 +352,17 @@
 /* Accordion: Receipes / Articles / Disclaimer (independent; user closes manually) */
 .intro.accordion summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 6px; }
 .intro.accordion summary::-webkit-details-marker { display: none; }
-.intro.accordion summary::after { content: ""; width: 8px; height: 8px; border-right: 2px solid #7a1f3d; border-bottom: 2px solid #7a1f3d; transform: rotate(45deg); margin: -4px 0 0 4px; }
+.intro.accordion summary::after { content: ""; width: 8px; height: 8px; border-right: 2px solid var(--link); border-bottom: 2px solid var(--link); transform: rotate(45deg); margin: -4px 0 0 4px; }
 .intro.accordion[open] summary::after { transform: rotate(-135deg); margin: 4px 0 0 4px; }
 .intro.accordion summary h3 { margin-top: 0; }
 .intro.accordion { margin-top: 16px; }
-.intro.accordion summary:focus-visible { outline: 2px solid #b8860b; outline-offset: 2px; }
+.intro.accordion summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* Article pages (articles/*.html): home icon and title in the header, readable body text in a quote block */
-.title-row .home-link { color: #f4d58d; display: inline-flex; align-self: center; opacity: .85; }
+.title-row .home-link { color: var(--on-primary); display: inline-flex; align-self: center; opacity: .85; }
 .title-row .home-link:hover, .title-row .home-link:focus-visible { opacity: 1; outline: none; }
-.article-title { margin: 0 0 0 14px; font-size: 1.8rem; line-height: 1.25; color: #f4d58d; }
+.article-title { margin: 0 0 0 14px; font-size: 1.8rem; line-height: 1.25; color: var(--on-primary); }
 .article-body { max-width: 820px; }
-.article-body p { margin: 0 0 16px; font-size: 1.05rem; line-height: 1.7; color: #1f2937; }
-.article-body .article-date { color: #6b7280; font-size: 0.85rem; margin-bottom: 20px; }
+.article-body p { margin: 0 0 16px; font-size: 1.05rem; line-height: 1.7; color: var(--text-strong); }
+.article-body .article-date { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
 @media (max-width: 600px) { .article-title { font-size: 1.4rem; } .article-body p { font-size: 1rem; } }
