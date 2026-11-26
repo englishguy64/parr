@@ -169,7 +169,7 @@ How each agent is called:
 | Response | `<project>/agents/<name>/endpoint/protocols/openai` (Foundry Responses protocol) |
 | AG-UI | `POST <project>/agents/<name>/endpoint/protocols/invocations?api-version=v1`, with an AG-UI run request in the body and `Accept: text/event-stream` |
 
-The Invocations address and the AG-UI request shape (`threadId`, `runId`, `messages` and so on) come from the AG-UI protocol and Foundry's preview documentation. The agents, the scripts and the Backend API's AG-UI translator were tested together on a PC (see below), but **nothing has been deployed to Foundry from this recipe**, so check the Foundry side against the current documentation.
+**Tested against Foundry.** The two hosted agents were deployed with the scripts in `azure`. `a2ui-response` answered over the Responses protocol, `a2ui-stream` streamed AG-UI events over the Invocations protocol, and the Backend API turned both into A2UI messages (a complete answer, and a stream of messages ending in a status line). Hosted Agents, the Invocations protocol and the packages are preview, so check the details against the current documentation.
 
 ## Try the AG-UI agent on your PC
 

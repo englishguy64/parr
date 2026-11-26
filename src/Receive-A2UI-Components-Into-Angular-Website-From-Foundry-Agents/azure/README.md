@@ -107,6 +107,6 @@ The first returns a `completed` response with text. The second streams `data:` l
 ## Notes
 
 - **Preview**: Hosted Agents and their REST API are preview. The request shape follows the current code-deploy documentation (api-version `v1`), so check it against the Foundry docs before relying on it
-- **Not yet deployed**: the scripts parse, the zips and parameter file they build were checked with a dry run, and both Bicep files compile. They have **not been run against Azure** for this recipe. The deployment approach is the one proven in the AG-UI recipe. The new parts are registering the `invocations` protocol for `a2ui-stream` and passing a protocol list per agent, which follow the Foundry documentation but are untested
+- **Verified**: `01_deploy-hostedagents.ps1` deployed both agents. Foundry reported each as `active`, `a2ui-response` registered with `responses` 2.0.0 and `a2ui-stream` with `invocations` 2.0.0. A call to each worked, and so did the Backend API against both. `02_create-hostedagentroles.ps1` was not needed in that project, because the agents could already call the model (the roles had been assigned earlier). It is there for a project where they have not
 - **Time**: Foundry builds each agent in about a minute. The Bicep `deploymentScript` adds a few more minutes, because Azure starts a temporary container and storage account to run it
 - **Foundry stays public**: this deployment needs public access to the Foundry data plane. If you lock Foundry down, run these scripts first
