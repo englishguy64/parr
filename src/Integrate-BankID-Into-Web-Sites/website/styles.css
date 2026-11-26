@@ -1,0 +1,14 @@
+body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f5f7fa; color: #222; }
+main { max-width: 480px; margin: 2rem auto; padding: 1.5rem; background: #fff; border: 2px solid #7a1f3d;
+  border-radius: 8px; text-align: center; }
+h1 { margin: 0 0 1rem; font-size: 1.3rem; color: #7a1f3d; }
+button { cursor: pointer; font: inherit; margin: 0.3rem; padding: 0.5rem 1rem; border: 2px solid #7a1f3d;
+  background: #f3e6ea; color: #7a1f3d; border-radius: 6px; }
+fieldset { margin: 0 0 1rem; border: 2px solid #0369a1; border-radius: 6px; }
+fieldset.production { border-color: #b91c1c; }
+legend { font-weight: bold; color: #0369a1; }
+fieldset.production legend { color: #b91c1c; }
+fieldset label { margin: 0 0.8rem; cursor: pointer; }
+#mode-note { margin: 0.5rem 0 0; font-size: 0.85rem; color: #6b7280; }
+#qr svg { width: 220px; height: 220px; }
+[hidden] { display: none; }

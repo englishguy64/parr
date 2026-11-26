@@ -16,3 +16,7 @@ obj/
 passkeys.db
 passkeys.db-shm
 passkeys.db-wal
+
+# Certificates and secrets (the BankID root CA .pem files in certs/ are public and are kept)
+*.p12
+*.pfx
