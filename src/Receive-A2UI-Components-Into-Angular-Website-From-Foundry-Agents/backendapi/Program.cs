@@ -1,8 +1,8 @@
 // Backend API: calls two Foundry agents, each over its own protocol, and translates both into A2UI messages for the
 // Angular website.
 //
-//   Agent that returns data via the Responses protocol --> "Responses To A2UI" translator --> website (one JSON array)
-//   Agent that returns data via the AG-UI protocol     --> "AG-UI To A2UI" translator     --> website (one message per line)
+//   Agent that returns data via the Responses protocol --> A2UIFromResponse translator --> website (one JSON array)
+//   Agent that returns data via the AG-UI protocol     --> A2UIFromAGUI translator     --> website (one message per line)
 //
 //   POST /api/a2ui/response   {prompt, surfaceId}  calls the RESPONSE agent over the Foundry Responses protocol and waits
 //                              for the complete answer. Returns one JSON array of A2UI messages.
@@ -79,8 +79,8 @@ app.MapPost("/api/a2ui/response", async (AskRequest request, CancellationToken c
     var reply = await responseAgent.RunAsync(request.Prompt, cancellationToken: ct);   // Responses protocol, one round trip
     timer.Stop();
 
-    // "Responses To A2UI" translator: plain text in, three A2UI messages out.
-    var messages = A2uiTranslator.FromResponse(surfaceId, responseName, reply.Text,
+    // A2UIFromResponse translator: plain text in, three A2UI messages out.
+    var messages = A2UIFromResponse.Translate(surfaceId, responseName, reply.Text,
         $"Complete in {timer.Elapsed.TotalSeconds:0.0} s");
     return Results.Json(messages);
 });
@@ -107,22 +107,22 @@ app.MapPost("/api/a2ui/stream", async (AskRequest request, HttpResponse response
 
     // AG-UI events in from the agent (or from the stub), A2UI messages out to the website.
     var http = clients.CreateClient("agui");
-    var agUiEvents =
+    var aguiEvents =
         !string.IsNullOrEmpty(streamUrl)                      // a local AG-UI agent: no sign-in needed
-            ? AgUiClient.ReadAsync(http, null, streamUrl, request.Prompt, ct)
+            ? AGUIClient.ReadAsync(http, null, streamUrl, request.Prompt, ct)
         : useFoundry                                          // the hosted agent in Foundry
-            ? AgUiClient.ReadAsync(http, credential, AgUiClient.FoundryUrl(projectEndpoint!, streamName), request.Prompt, ct)
-            : AgUiClient.Stub(request.Prompt, ct);            // nothing configured: canned events
+            ? AGUIClient.ReadAsync(http, credential, AGUIClient.FoundryUrl(projectEndpoint!, streamName), request.Prompt, ct)
+            : AGUIClient.Stub(request.Prompt, ct);            // nothing configured: canned events
 
     try
     {
-        await foreach (var message in AgUiTranslator.TranslateAsync(surfaceId, streamName, agUiEvents, ct))
+        await foreach (var message in A2UIFromAGUI.TranslateAsync(surfaceId, streamName, aguiEvents, ct))
             await Send(message);
     }
     catch (Exception e) when (e is not OperationCanceledException)
     {
         // The stream has started, so the status code can no longer change: report the error on the card instead.
-        await Send(A2uiTranslator.UpdateDataModel(surfaceId, "/status", $"Error: {e.Message}"));
+        await Send(A2UIMessages.UpdateDataModel(surfaceId, "/status", $"Error: {e.Message}"));
     }
 });
 

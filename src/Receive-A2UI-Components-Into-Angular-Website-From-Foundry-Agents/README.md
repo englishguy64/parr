@@ -11,7 +11,7 @@ In this recipe an Angular website asks a question and a C# Backend API calls a F
 ## Overview
 
 - **Website** (`website/`, Angular) - a question box, two buttons, the rendered A2UI card and a live list of every A2UI message received. Uses the `@a2ui/angular` renderer with the Basic catalog
-- **Backend API** (`backendapi/`, ASP.NET, .NET 10) - two endpoints, one per agent, and two translators: **Responses To A2UI** and **AG-UI To A2UI**. Calls Foundry with its own identity
+- **Backend API** (`backendapi/`, ASP.NET, .NET 10) - two endpoints, one per agent, and two translators: **A2UIFromResponse** and **A2UIFromAGUI**. Calls Foundry with its own identity
 - **Foundry hosted agents** (2, C#, deployed from source):
   - `a2ui-response` - **returns data via the Responses protocol**
   - `a2ui-stream` - **returns data via the AG-UI protocol**. Foundry has no AG-UI protocol of its own, so it serves AG-UI over the Invocations protocol, see [hostedagents/README.md](hostedagents/README.md)
@@ -24,8 +24,8 @@ Angular website (A2UI renderer)
   | POST /api/a2ui/stream    {prompt, surfaceId}      one A2UI message per line back, as they are produced
   v
 C# Backend API -- DefaultAzureCredential / managed identity
-  +-- Responses To A2UI translator   <-- Responses protocol -- a2ui-response   one complete text answer
-  +-- AG-UI To A2UI translator       <-- AG-UI protocol ------ a2ui-stream     AG-UI events: text deltas as they are written
+  +-- A2UIFromResponse translator    <-- Responses protocol -- a2ui-response   one complete text answer
+  +-- A2UIFromAGUI translator        <-- AG-UI protocol ------ a2ui-stream     AG-UI events: text deltas as they are written
                   |
                   v
               A2UI messages --> website
@@ -37,7 +37,7 @@ Foundry never sends the website anything. The Backend API calls each agent, tran
 
 | Folder | Purpose |
 |--------|---------|
-| `backendapi` | `Program.cs` (the two endpoints), `A2uiTranslator.cs` (A2UI message builders and the Responses To A2UI translator), `AgUiClient.cs` (calls the AG-UI agent and reads its events), `AgUiTranslator.cs` (the AG-UI To A2UI translator), `StubChatClient.cs` (a local stand-in for Foundry) |
+| `backendapi` | `Program.cs` (the two endpoints), `A2UIMessages.cs` (the A2UI message builders), `A2UIFromResponse.cs` (the Responses protocol translator), `AGUIClient.cs` (calls the AG-UI agent and reads its events), `A2UIFromAGUI.cs` (the AG-UI translator), `StubChatClient.cs` (a local stand-in for Foundry) |
 | `hostedagents` | The two Foundry hosted agents in C#: `a2ui-response` (Responses protocol) and `a2ui-stream` (AG-UI over the Invocations protocol). See [hostedagents/README.md](hostedagents/README.md) |
 | `azure` | Bicep and PowerShell that deploy the two agents from source, no container. See [azure/README.md](azure/README.md) |
 | `website` | The Angular app. `src/app/agent.service.ts` calls the Backend API and feeds every message to the A2UI renderer. `src/app/app.config.ts` sets up the renderer |
@@ -96,8 +96,8 @@ A2UI has no "append", so each streamed update carries the whole text so far.
 
 | Endpoint | Agent and protocol | Translator | What comes back |
 |---|---|---|---|
-| `POST /api/a2ui/response` | `a2ui-response`, Responses protocol | Responses To A2UI | One JSON array: `createSurface`, `updateComponents`, `updateDataModel`. Sent when the agent has finished |
-| `POST /api/a2ui/stream` | `a2ui-stream`, AG-UI protocol | AG-UI To A2UI | Newline delimited JSON (`application/x-ndjson`): the surface and components first, then one `updateDataModel` per text delta, then a final status. Each line is flushed as it is produced |
+| `POST /api/a2ui/response` | `a2ui-response`, Responses protocol | A2UIFromResponse | One JSON array: `createSurface`, `updateComponents`, `updateDataModel`. Sent when the agent has finished |
+| `POST /api/a2ui/stream` | `a2ui-stream`, AG-UI protocol | A2UIFromAGUI | Newline delimited JSON (`application/x-ndjson`): the surface and components first, then one `updateDataModel` per text delta, then a final status. Each line is flushed as it is produced |
 
 How the AG-UI events become A2UI messages:
 
@@ -110,7 +110,7 @@ How the AG-UI events become A2UI messages:
 
 ## Run it on your PC (no Azure needed)
 
-With `FOUNDRY_PROJECT_ENDPOINT` unset, the Backend API uses stubs, so you can see the whole A2UI flow without Foundry. The stub for the Response agent returns a canned text answer. The stub for the AG-UI agent produces the same AG-UI events a real agent would (`RUN_STARTED`, `TEXT_MESSAGE_CONTENT` for each word, `RUN_FINISHED`), so the AG-UI To A2UI translator is exercised too.
+With `FOUNDRY_PROJECT_ENDPOINT` unset, the Backend API uses stubs, so you can see the whole A2UI flow without Foundry. The stub for the Response agent returns a canned text answer. The stub for the AG-UI agent produces the same AG-UI events a real agent would (`RUN_STARTED`, `TEXT_MESSAGE_CONTENT` for each word, `RUN_FINISHED`), so the A2UIFromAGUI translator is exercised too.
 
 1. Start the Backend API (it listens on http://localhost:5200):
 

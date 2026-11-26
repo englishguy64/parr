@@ -1,8 +1,7 @@
 using System.Text.Json.Nodes;
 
 /// <summary>
-/// A2UI v0.9 message builders, plus the "Responses To A2UI" translator (FromResponse).
-/// The "AG-UI To A2UI" translator is in AgUiTranslator.cs and uses the same builders.
+/// A2UI v0.9 message builders. The two translators, A2UIFromResponse and A2UIFromAGUI, use them.
 ///
 /// An A2UI surface is built from three kinds of message:
 ///   createSurface     allocates the surface and names the catalog of components it may use
@@ -12,7 +11,7 @@ using System.Text.Json.Nodes;
 /// Because the answer text lives in the data model, a streamed reply only has to send small updateDataModel
 /// messages: the component tree is sent once.
 /// </summary>
-internal static class A2uiTranslator
+internal static class A2UIMessages
 {
     private const string Version = "v0.9";
     private const string BasicCatalogId = "https://a2ui.org/specification/v0_9/catalogs/basic/catalog.json";
@@ -55,16 +54,6 @@ internal static class A2uiTranslator
     {
         ["version"] = Version,
         ["updateDataModel"] = new JsonObject { ["surfaceId"] = surfaceId, ["path"] = path, ["value"] = value },
-    };
-
-    /// <summary>
-    /// "Responses To A2UI" translator: the complete text from the Responses protocol becomes three messages, sent together.
-    /// </summary>
-    public static JsonArray FromResponse(string surfaceId, string agentName, string answer, string status) => new()
-    {
-        CreateSurface(surfaceId),
-        UpdateComponents(surfaceId, "Answer from the Response agent", agentName),
-        InitialData(surfaceId, answer, status),
     };
 
     private static JsonObject Component(string id, string type, params (string Name, JsonNode Value)[] properties)

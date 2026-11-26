@@ -1,5 +1,5 @@
 // a2ui-stream: a Foundry Hosted Agent that RETURNS ITS DATA VIA THE AG-UI PROTOCOL. The Backend API calls it for
-// POST /api/a2ui/stream and turns each AG-UI event into an A2UI message (the "AG-UI To A2UI" translator).
+// POST /api/a2ui/stream and turns each AG-UI event into an A2UI message (the A2UIFromAGUI translator).
 //
 // Hosted Agents are your own code running in Foundry Agent Service. This one deploys from source (no container, no registry):
 // the scripts in ../../azure zip this folder and Foundry runs `dotnet restore` and `dotnet publish`.

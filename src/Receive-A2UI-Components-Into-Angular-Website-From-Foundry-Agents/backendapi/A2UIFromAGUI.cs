@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.Json.Nodes;
 
 /// <summary>
-/// The "AG-UI To A2UI" translator: turns the AG-UI events a Foundry agent streams into A2UI messages for the website.
+/// The "A2UI From AG-UI" translator: turns the AG-UI events a Foundry agent streams into A2UI messages for the website.
 ///
 ///   AG-UI event (from the agent)         A2UI message (to the website)
 ///   ----------------------------         -----------------------------
@@ -15,34 +15,34 @@ using System.Text.Json.Nodes;
 ///
 /// The surface and its components are sent once, at the start. After that only the data changes, so each message is tiny.
 /// </summary>
-internal static class AgUiTranslator
+internal static class A2UIFromAGUI
 {
     public static async IAsyncEnumerable<JsonObject> TranslateAsync(
-        string surfaceId, string agentName, IAsyncEnumerable<JsonObject> agUiEvents,
+        string surfaceId, string agentName, IAsyncEnumerable<JsonObject> aguiEvents,
         [EnumeratorCancellation] CancellationToken ct = default)
     {
-        yield return A2uiTranslator.CreateSurface(surfaceId);
-        yield return A2uiTranslator.UpdateComponents(surfaceId, "Streamed answer from the Streaming agent", agentName);
-        yield return A2uiTranslator.InitialData(surfaceId, "", "Streaming...");
+        yield return A2UIMessages.CreateSurface(surfaceId);
+        yield return A2UIMessages.UpdateComponents(surfaceId, "Streamed answer from the Streaming agent", agentName);
+        yield return A2UIMessages.InitialData(surfaceId, "", "Streaming...");
 
         var timer = Stopwatch.StartNew();
         var text = new StringBuilder();
         string? error = null;
 
-        await foreach (var agUiEvent in agUiEvents.WithCancellation(ct))
+        await foreach (var aguiEvent in aguiEvents.WithCancellation(ct))
         {
-            var type = agUiEvent["type"]?.GetValue<string>();
+            var type = aguiEvent["type"]?.GetValue<string>();
             if (type is "TEXT_MESSAGE_CONTENT" or "TEXT_MESSAGE_CHUNK")
             {
-                var delta = agUiEvent["delta"]?.GetValue<string>();
+                var delta = aguiEvent["delta"]?.GetValue<string>();
                 if (string.IsNullOrEmpty(delta)) continue;
                 text.Append(delta);
                 // A2UI has no "append": send the whole text so far. The Text component bound to /answer redraws.
-                yield return A2uiTranslator.UpdateDataModel(surfaceId, "/answer", text.ToString());
+                yield return A2UIMessages.UpdateDataModel(surfaceId, "/answer", text.ToString());
             }
             else if (type == "RUN_ERROR")
             {
-                error = agUiEvent["message"]?.GetValue<string>() ?? "The agent reported an error";
+                error = aguiEvent["message"]?.GetValue<string>() ?? "The agent reported an error";
                 break;
             }
             else if (type == "RUN_FINISHED")
@@ -52,7 +52,7 @@ internal static class AgUiTranslator
         }
 
         timer.Stop();
-        yield return A2uiTranslator.UpdateDataModel(surfaceId, "/status",
+        yield return A2UIMessages.UpdateDataModel(surfaceId, "/status",
             error is null ? $"Complete in {timer.Elapsed.TotalSeconds:0.0} s" : $"Error: {error}");
     }
 }

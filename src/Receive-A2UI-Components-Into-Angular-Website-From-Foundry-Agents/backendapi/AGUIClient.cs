@@ -14,7 +14,7 @@ using Azure.Core;
 ///   TEXT_MESSAGE_END             the message is complete
 ///   RUN_FINISHED / RUN_ERROR     the run ended
 /// </summary>
-internal static class AgUiClient
+internal static class AGUIClient
 {
     /// <summary>The address of a hosted agent's Invocations endpoint in a Foundry project.</summary>
     public static string FoundryUrl(string projectEndpoint, string agentName) =>
@@ -29,7 +29,6 @@ internal static class AgUiClient
         HttpClient http, TokenCredential? credential, string url, string prompt,
         [EnumeratorCancellation] CancellationToken ct)
     {
-
         // The AG-UI run request: who is talking (thread, run) and what was said.
         var body = new JsonObject
         {
@@ -69,13 +68,13 @@ internal static class AgUiClient
         {
             if (!line.StartsWith("data:", StringComparison.Ordinal)) continue;   // skip blank lines and comments
             var json = line[5..].Trim();
-            if (json.Length > 0 && JsonNode.Parse(json) is JsonObject agUiEvent) yield return agUiEvent;
+            if (json.Length > 0 && JsonNode.Parse(json) is JsonObject aguiEvent) yield return aguiEvent;
         }
     }
 
     /// <summary>
     /// Stands in for the Foundry agent when FOUNDRY_PROJECT_ENDPOINT is not set. It produces the same AG-UI events a real
-    /// agent would, word by word, so the AG-UI to A2UI translator can be tried on a PC without Azure.
+    /// agent would, word by word, so the A2UIFromAGUI translator can be tried on a PC without Azure.
     /// </summary>
     public static async IAsyncEnumerable<JsonObject> Stub(string prompt, [EnumeratorCancellation] CancellationToken ct)
     {

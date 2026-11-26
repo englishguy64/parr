@@ -133,8 +133,8 @@ class ReceiveA2UI(Scene):
         status_bar.move_to(card.get_bottom() + UP * 0.18).align_to(card, LEFT).shift(RIGHT * 0.2)
         surface = VGroup(card, card_head, *bars, status_bar)
 
-        translator1 = box("Responses To A2UI", "Translator", A2UI_C, [-0.4, 0.5, 0], 2.6, 0.8)
-        translator2 = box("AG-UI To A2UI", "Translator", A2UI_C, [-0.4, -0.7, 0], 2.6, 0.8)
+        translator1 = box("A2UI From Response", "Translator", A2UI_C, [-0.4, 0.5, 0], 2.6, 0.8)
+        translator2 = box("A2UI From AG-UI", "Translator", A2UI_C, [-0.4, -0.7, 0], 2.6, 0.8)
 
         self.play(FadeIn(site), FadeIn(api), run_time=1.0)
         self.play(FadeIn(foundry), FadeIn(agent1), FadeIn(agent2), run_time=1.0)
@@ -175,7 +175,7 @@ class ReceiveA2UI(Scene):
         self.play(text_tok.animate.move_to([0.4, LANE1 - 0.12, 0]).scale(0.85), run_time=1.5)
         self.wait(1.0)
 
-        say("The Responses translator turns the text into three A2UI messages", A2UI_C)
+        say("The A2UI From Response translator turns the text into three A2UI messages", A2UI_C)
         self.play(text_tok.animate.move_to(translator1.get_center()), run_time=0.8)
         self.play(FadeOut(text_tok), Indicate(translator1[0], color=A2UI_C, scale_factor=1.08), run_time=1.0)
         msgs = [token(n, A2UI_C, 1.25) for n in ("createSurface", "updateComponents", "updateDataModel")]
@@ -207,7 +207,7 @@ class ReceiveA2UI(Scene):
                         Text("AG-UI protocol", font_size=10, color=FOUNDRY_C).move_to([2.5, LANE2 - 0.38, 0]))
         self.play(FadeIn(req2), FadeIn(call2), FadeIn(back2), FadeIn(ret2), FadeIn(ag_lbl), run_time=1.0)
 
-        say("The AG-UI translator starts with the surface and its components, sent once", A2UI_C)
+        say("The A2UI From AG-UI translator starts with the surface and its components, sent once", A2UI_C)
         first = [token("createSurface", A2UI_C, 1.25), token("updateComponents", A2UI_C, 1.25)]
         for m in first:
             m.move_to(translator2.get_center())
@@ -232,7 +232,7 @@ class ReceiveA2UI(Scene):
             self.play(msg.animate.move_to([-4.2, LANE2 - 0.12, 0]).scale(0.7), run_time=0.8)
             self.play(FadeOut(msg), FadeIn(bars[min(i, 3)]) if i < 4 else Indicate(bars[3], color=A2UI_C), run_time=0.4)
             if i == 0:
-                say("The AG-UI translator turns each text delta into one A2UI updateDataModel message", A2UI_C)
+                say("The A2UI From AG-UI translator turns each text delta into one A2UI updateDataModel message", A2UI_C)
         self.wait(2.0)
         say("The answer grows on screen while the agent is still writing: AG-UI carries the text, A2UI describes the UI", SITE_C)
         self.wait(4.0)

@@ -6,8 +6,8 @@ The two agents return their data over different protocols, and the Backend API h
 
 | Folder | Agent name | Returns data via | Called by the Backend API for | Translator |
 |--------|------------|------------------|-------------------------------|------------|
-| `a2ui-response` | `a2ui-response` | **Responses protocol** | `POST /api/a2ui/response` | Responses To A2UI |
-| `a2ui-stream` | `a2ui-stream` | **AG-UI protocol** | `POST /api/a2ui/stream` | AG-UI To A2UI |
+| `a2ui-response` | `a2ui-response` | **Responses protocol** | `POST /api/a2ui/response` | A2UIFromResponse |
+| `a2ui-stream` | `a2ui-stream` | **AG-UI protocol** | `POST /api/a2ui/stream` | A2UIFromAGUI |
 
 Both create a chat agent on a model in the same Foundry project, and both are told to answer in plain text, because the Backend API decides how the answer looks on screen by turning it into A2UI components.
 

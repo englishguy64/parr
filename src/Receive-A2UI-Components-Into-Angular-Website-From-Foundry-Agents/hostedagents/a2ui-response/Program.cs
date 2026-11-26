@@ -1,5 +1,5 @@
 // a2ui-response: a Foundry Hosted Agent that RETURNS ITS DATA VIA THE RESPONSES PROTOCOL. The Backend API calls it for
-// POST /api/a2ui/response and turns the one complete text answer into A2UI messages (the "Responses To A2UI" translator).
+// POST /api/a2ui/response and turns the one complete text answer into A2UI messages (the A2UIFromResponse translator).
 //
 // Hosted Agents are your own code running in Foundry Agent Service. This one deploys from source (no container, no registry):
 // the scripts in ../../azure zip this folder and Foundry runs `dotnet restore` and `dotnet publish`.
