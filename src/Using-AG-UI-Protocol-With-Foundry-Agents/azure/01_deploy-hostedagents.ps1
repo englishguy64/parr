@@ -10,7 +10,7 @@ param(
   [string]$ProjectName = "${env:TENANT_PREFIX}-FoundryProject",
   [string]$ModelDeployment = 'gpt-4.1-mini'
 )
-if (-not $env:TENANT_PREFIX) { throw 'Set the TENANT_PREFIX environment variable first, for example:  $env:TENANT_PREFIX = ''englishguy64-18Nov''' }
+if (-not $env:TENANT_PREFIX) { throw 'Set the TENANT_PREFIX environment variable first, for example:  $env:TENANT_PREFIX = ''your-tenant-prefix''' }
 $ErrorActionPreference = 'Stop'
 
 # Agents to deploy. The name is also the folder under ..\hostedagents and the assembly name. Names must start with "agui-".

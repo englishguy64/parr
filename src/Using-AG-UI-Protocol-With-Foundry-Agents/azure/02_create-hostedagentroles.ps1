@@ -7,7 +7,7 @@ param(
   [string]$ProjectName = "${env:TENANT_PREFIX}-FoundryProject",
   [string[]]$AgentNames = @('agui-support', 'agui-research')
 )
-if (-not $env:TENANT_PREFIX) { throw 'Set the TENANT_PREFIX environment variable first, for example:  $env:TENANT_PREFIX = ''englishguy64-18Nov''' }
+if (-not $env:TENANT_PREFIX) { throw 'Set the TENANT_PREFIX environment variable first, for example:  $env:TENANT_PREFIX = ''your-tenant-prefix''' }
 $ErrorActionPreference = 'Stop'
 
 $endpoint = "https://$FoundryName.services.ai.azure.com/api/projects/$ProjectName"

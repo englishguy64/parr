@@ -1,0 +1,55 @@
+<header>
+  <h1>Receive A2UI Components From Foundry Agents</h1>
+  <p>
+    Ask a question. The C# Backend API calls a Foundry agent, translates the answer into A2UI messages and this
+    Angular page renders them as components.
+  </p>
+</header>
+
+<main>
+  <section class="ask">
+    <textarea
+      rows="3"
+      aria-label="Your question"
+      [value]="prompt()"
+      (input)="prompt.set($any($event.target).value)"
+    ></textarea>
+    <div class="buttons">
+      <button type="button" [disabled]="agent.busy()" (click)="agent.ask('response', prompt())">
+        Ask the Response agent
+      </button>
+      <button type="button" [disabled]="agent.busy()" (click)="agent.ask('stream', prompt())">
+        Ask the Streaming agent
+      </button>
+      <button type="button" class="plain" (click)="agent.clear()">Clear</button>
+    </div>
+    @if (agent.error()) {
+      <p class="error" role="alert">{{ agent.error() }}</p>
+    }
+  </section>
+
+  <div class="columns">
+    <section class="rendered">
+      <h2>Rendered by A2UI</h2>
+      @for (id of agent.surfaceIds(); track id) {
+        <a2ui-v09-surface [surfaceId]="id" />
+      } @empty {
+        <p class="hint">Nothing yet. Ask a question.</p>
+      }
+    </section>
+
+    <section class="payload">
+      <h2>A2UI payload received ({{ agent.payload().length }} messages)</h2>
+      @for (entry of agent.payload(); track $index) {
+        <details [open]="$index >= agent.payload().length - 3">
+          <summary>
+            <code>{{ entry.surfaceId }}</code> · {{ entry.kind }}
+          </summary>
+          <pre>{{ entry.json }}</pre>
+        </details>
+      } @empty {
+        <p class="hint">The raw JSON messages appear here.</p>
+      }
+    </section>
+  </div>
+</main>

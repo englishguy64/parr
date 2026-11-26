@@ -22,7 +22,7 @@ Use these instead of the Foundry Toolkit wizard. The wizard registered the agent
 The scripts use the same naming as the other recipe. Set the prefix, and the resource group, Foundry resource and project names follow from it:
 
 ```powershell
-$env:TENANT_PREFIX = 'englishguy64-18Nov'     # Foundry resource: <prefix>, project: <prefix>-FoundryProject, group: <prefix>-rg1
+$env:TENANT_PREFIX = 'your-tenant-prefix'     # Foundry resource: <prefix>, project: <prefix>-FoundryProject, group: <prefix>-rg1
 az login
 az account set --subscription "<name or id>"
 cd src\Using-AG-UI-Protocol-With-Foundry-Agents\azure
