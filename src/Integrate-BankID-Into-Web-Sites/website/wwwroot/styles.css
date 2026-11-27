@@ -12,3 +12,5 @@ fieldset label { margin: 0 0.8rem; cursor: pointer; }
 #mode-note { margin: 0.5rem 0 0; font-size: 0.85rem; color: #6b7280; }
 #qr svg { width: 220px; height: 220px; }
 [hidden] { display: none; }
+#fake-banner { margin: 0 0 1rem; padding: 0.6rem 0.8rem; border: 2px solid #b45309; border-radius: 6px; background: #fef3c7;
+  color: #92400e; font-weight: bold; font-size: 0.9rem; }

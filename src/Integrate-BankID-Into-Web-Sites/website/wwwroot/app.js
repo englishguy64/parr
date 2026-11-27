@@ -1,8 +1,19 @@
-// The simple web site. It never talks to BankID. It only talks to the C# backend API on the same address.
+// The simple web site. It never talks to BankID. The browser calls the Backend API, which is the only part that talks to BankID.
+//
+//   POST {API}/bankid/start            -> { orderRef, mode, autoStartToken }   autoStartToken only on the same device
+//   GET  {API}/bankid/qr/{orderRef}    -> { qrData }                           about every second, draws the animated QR code
+//   GET  {API}/bankid/status/{orderRef}-> { status, message, sessionToken }    about every 2 seconds
+//   GET  {API}/me                      -> the signed in user, with  Authorization: Bearer <sessionToken>
+//
+// /config.json (from the web site's server) says where the Backend API is, or that this is a fake sign in because the page runs on localhost.
 const el = (id) => document.getElementById(id);
 const onPhone = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-let orderRef = sessionStorage.getItem('orderRef');
+let config = {};                 // { backendApiUrl } from /config.json
+// The order is kept in localStorage so the page can carry on when BankID returns the user in a new tab.
+let orderRef = localStorage.getItem('orderRef');
+// The session token is the proof of sign in. It is only kept for this tab.
+let sessionToken = sessionStorage.getItem('sessionToken');
 let statusTimer = null;
 let qrTimer = null;
 
@@ -43,8 +54,14 @@ function show(section) {
   }
 }
 
-async function api(path, options) {
-  const response = await fetch(path, options);
+// Everything goes to the Backend API in Azure. On localhost there is no Backend API: the sign in is fake, answered by this
+// web site's own /api, and the page says so.
+const apiBase = () => (config.fake ? '/api' : `${config.backendApiUrl}/api`);
+
+async function api(path, options = {}) {
+  const headers = { ...(options.headers ?? {}) };
+  if (sessionToken) headers.Authorization = `Bearer ${sessionToken}`;
+  const response = await fetch(`${apiBase()}${path}`, { ...options, headers });
   if (!response.ok) {
     let detail = '';
     try {
@@ -61,7 +78,7 @@ function stopPolling() {
   clearInterval(statusTimer);
   clearInterval(qrTimer);
   statusTimer = qrTimer = null;
-  sessionStorage.removeItem('orderRef');
+  localStorage.removeItem('orderRef');
   orderRef = null;
 }
 
@@ -69,7 +86,7 @@ function stopPolling() {
 async function start(device) {
   let order;
   try {
-    order = await api('/api/bankid/start', {
+    order = await api('/bankid/start', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ device, mode: currentMode() }),
@@ -79,11 +96,12 @@ async function start(device) {
     return;
   }
   orderRef = order.orderRef;
-  sessionStorage.setItem('orderRef', orderRef);
+  localStorage.setItem('orderRef', orderRef);
   waitForBankId(device === 'pc');
-  if (order.launchUrl) {
-    // Same device: open the BankID app. A link with the autoStartToken starts it.
-    window.location.href = order.launchUrl;
+  if (order.autoStartToken) {
+    // Same device: open the BankID app. A link with the autoStartToken starts it, and BankID returns the user to this
+    // site through the returnUrl the backend sent (the WEBSITE_URL).
+    window.location.href = `https://app.bankid.com/?autostarttoken=${order.autoStartToken}`;
   }
 }
 
@@ -102,7 +120,7 @@ function waitForBankId(showQr) {
 async function refreshQr() {
   if (!orderRef) return;
   try {
-    const { qrData } = await api(`/api/bankid/qr/${orderRef}`);
+    const { qrData } = await api(`/bankid/qr/${orderRef}`);
     const qr = qrcode(0, 'M');
     qr.addData(qrData);
     qr.make();
@@ -115,10 +133,12 @@ async function refreshQr() {
 async function checkStatus() {
   if (!orderRef) return;
   try {
-    const result = await api(`/api/bankid/status/${orderRef}`);
+    const result = await api(`/bankid/status/${orderRef}`);
     el('message').textContent = result.message;
     if (result.status === 'complete') {
       stopPolling();
+      sessionToken = result.sessionToken;
+      sessionStorage.setItem('sessionToken', sessionToken);
       showSignedIn();
     } else if (result.status === 'failed') {
       stopPolling();
@@ -135,7 +155,7 @@ async function checkStatus() {
 
 async function showSignedIn() {
   try {
-    const me = await api('/api/me');
+    const me = await api('/me');
     el('name').textContent = me.name;
     el('personal-number').textContent = me.personalNumber;
     el('signed-in-mode').textContent = me.mode === 'production' ? 'Production' : 'Test';
@@ -150,12 +170,17 @@ el('start-pc').addEventListener('click', () => start('pc'));
 el('cancel').addEventListener('click', async () => {
   const cancelled = orderRef;
   stopPolling();
-  if (cancelled) await api(`/api/bankid/cancel/${cancelled}`, { method: 'POST' });
+  if (cancelled) await api(`/bankid/cancel/${cancelled}`, { method: 'POST' });
   show('signed-out');
 });
 el('signout').addEventListener('click', async () => {
-  await api('/api/signout', { method: 'POST' });
-  show('signed-out');
+  try {
+    await api('/signout', { method: 'POST' });
+  } finally {
+    sessionToken = null;
+    sessionStorage.removeItem('sessionToken');
+    show('signed-out');
+  }
 });
 
 // On a phone the main button is "on this device". On a PC the main button is the QR code.
@@ -166,9 +191,23 @@ if (onPhone) {
   el('signed-out').insertBefore(el('start-pc'), el('start-phone'));
 }
 
-// Coming back from the BankID app on the same phone: carry on waiting, or show the signed in user.
-if (orderRef) {
-  waitForBankId(false);
-} else {
-  showSignedIn();
-}
+// Find the Backend API first. Then, coming back from the BankID app on the same phone, carry on waiting, or show the
+// signed in user.
+(async function start_() {
+  try {
+    const response = await fetch('/config.json');
+    config = await response.json();
+    if (!response.ok) throw new Error(config.message);
+  } catch (error) {
+    alert(error.message || 'Could not load the page settings. Try reloading the page.');
+    return;
+  }
+  if (config.fake) {
+    el('fake-banner').hidden = false;
+  }
+  if (orderRef) {
+    waitForBankId(false);
+  } else if (sessionToken) {
+    showSignedIn();
+  }
+})();

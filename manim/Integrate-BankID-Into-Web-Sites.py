@@ -143,7 +143,7 @@ class IntegrateBankID(Scene):
         say("Part 1: The same code runs in test and production. Only the configuration changes", INK)
         test_card = card("Test Configuration", TEST_C, -3.55, [
             ("Endpoint", "https://appapi2.test.bankid.com/rp/v6.0/", True),
-            ("Your Certificate", "In Azure Key Vault. Downloaded from BankID (FPTestcert5)", False),
+            ("Your Certificate", "In the test Key Vault. Downloaded from BankID (FPTestcert5)", False),
             ("Trust Store", "Test BankID SSL Root CA v1 Test", True),
             ("BankID App", "Configured for test, with a Test BankID", False),
             ("Agreement", "Not needed", False),
@@ -151,7 +151,7 @@ class IntegrateBankID(Scene):
         ])
         prod_card = card("Production Configuration", PROD_C, 3.55, [
             ("Endpoint", "https://appapi2.bankid.com/rp/v6.0/", True),
-            ("Your Certificate", "In Azure Key Vault. Ordered from your bank", False),
+            ("Your Certificate", "Uploaded by hand to the production Key Vault", False),
             ("Trust Store", "BankID SSL Root CA v1", True),
             ("BankID App", "The real BankID the user already has", False),
             ("Agreement", "Required, with a bank that sells BankID", False),
@@ -176,7 +176,7 @@ class IntegrateBankID(Scene):
         reqs = [
             "Sign an agreement with a bank that sells BankID",
             "Order a relying party certificate from that bank. It is not the test certificate",
-            "Keep it secret in Azure Key Vault. The backend reads it with its managed identity",
+            "Upload it by hand to the production Key Vault. The backend reads it with its managed identity",
             "Install the BankID SSL root CA for production in the backend trust store",
             "Call https://appapi2.bankid.com/rp/v6.0/ using TLS 1.2 or 1.3 with the certificate",
             "Send the real end user IP in every order and check it matches the ip in /collect",
