@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BankID sign in demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <h1>BankID sign in demo</h1>
+    <p class="note">Test environment only. Use the BankID test app and a BankID test user, never your real BankID.</p>
+    <p id="local-warning" class="warning" hidden>Running on localhost: the sign in is fake and BankID is not called.</p>
+
+    <section id="signed-out">
+      <button id="sign-in-pc" type="button">Sign in with BankID on another device</button>
+      <button id="sign-in-same" type="button" class="secondary">Sign in with BankID on this device</button>
+    </section>
+
+    <section id="waiting" hidden>
+      <canvas id="qr" width="240" height="240" aria-label="BankID QR code" hidden></canvas>
+      <p id="status" role="status"></p>
+      <button id="cancel" type="button" class="secondary">Cancel</button>
+    </section>
+
+    <section id="signed-in" hidden>
+      <h2>Signed in</h2>
+      <dl>
+        <dt>Name</dt><dd id="user-name"></dd>
+        <dt>Personal number</dt><dd id="user-pnr"></dd>
+      </dl>
+      <button id="sign-out" type="button" class="secondary">Sign out</button>
+    </section>
+
+    <p id="error" class="error" role="alert" hidden></p>
+  </main>
+  <script src="lib/qrcode.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

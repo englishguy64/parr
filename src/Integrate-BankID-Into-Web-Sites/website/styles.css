@@ -1,0 +1,11 @@
+:root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+body { margin: 0; display: grid; place-items: start center; padding: 2rem 1rem; }
+main { max-width: 32rem; width: 100%; }
+button { font: inherit; padding: .7rem 1rem; margin: .25rem .25rem .25rem 0; border: 0; border-radius: .4rem; background: #235971; color: #fff; cursor: pointer; }
+button.secondary { background: transparent; color: inherit; border: 1px solid currentColor; }
+canvas { display: block; margin: 1rem 0; background: #fff; padding: .5rem; border-radius: .4rem; }
+.note { opacity: .8; }
+.warning { padding: .5rem .75rem; border-left: .25rem solid #b8860b; background: rgba(184, 134, 11, .15); }
+.error { padding: .5rem .75rem; border-left: .25rem solid #b00020; background: rgba(176, 0, 32, .15); }
+dt { font-weight: 600; margin-top: .5rem; }
+dd { margin: 0; }
