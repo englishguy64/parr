@@ -1,4 +1,4 @@
-# Integrate BankID Into Web Sites
+# Integrate BankID Into Web Sites - NOT YET READY, WORK IN PROGRESS, USE WITH CAUTION
 
 > BankID is the most trusted way to verify user identity in Sweden. It is issued through all major Swedish Banks.
 
