@@ -1,4 +1,4 @@
-# Integrate BankID Into Web Sites
+# Integrate BankID into an Azure Hosted Web Site
 
 > BankID is the most trusted way to verify user identity in Sweden. It is issued through all major Swedish banks.
 
