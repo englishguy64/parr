@@ -1,9 +1,9 @@
 // An Azure Key Vault that holds the BankID relying party certificates, one for test and one for production.
 //
 // The vault uses Azure RBAC, not access policies. Key Vault Certificates Officer is handed to whoever uploads the certificates
-// (02_upload-test-certificate-to-keyvault.ps1). The web app that runs the backend API gets Key Vault Secrets User in create_webapp.bicep:
+// (by hand, see the README). The web app that runs the backend API gets Key Vault Secrets User in create_webapp.bicep:
 // Key Vault keeps a certificate with its private key as a secret of the same name, and the backend reads that secret.
-// The certificates themselves are uploaded by 02_upload-test-certificate-to-keyvault.ps1, so no certificate or password is in this file.
+// The certificates themselves are uploaded by hand, so no certificate or password is in this file.
 
 @description('Name of the Key Vault. 3 to 24 characters, letters, digits and hyphens. It must be unique in Azure.')
 @minLength(3)

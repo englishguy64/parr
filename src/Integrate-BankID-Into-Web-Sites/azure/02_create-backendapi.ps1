@@ -1,5 +1,5 @@
 # Creates the Backend API in Azure (App Service plan, the API, its application settings and the Key Vault roles).
-# Run it after 01_create-keyvault.ps1. 04_deploy-backendapi.ps1 deploys the code, and 05_create-webapp.ps1 creates the web site. Every setting is an environment variable and none has a default.
+# Run it after 01_create-keyvault.ps1. 03_deploy-backendapi.ps1 deploys the code, and 04_create-webapp.ps1 creates the web site. Every setting is an environment variable and none has a default.
 # The application settings it creates are the environment variables the backend reads, with the same names.
 #
 # Names are built from the RECIPE_PREFIX environment variable, a unique prefix for this recipe such as thunderbirdsarego, as in the
@@ -22,7 +22,7 @@ param(
   [string]$WebAppName = "${env:RECIPE_PREFIX}-web",
   [string]$WebSiteUrl,
   [string]$TestUrl = $env:BANKID_TEST_URL,
-  [string]$TestCertificateName = 'fptestcert5',   # the public BankID test certificate FPTestcert5, uploaded by 02 under this name
+  [string]$TestCertificateName = 'fptestcert5',   # the public BankID test certificate FPTestcert5. You upload it by hand under this name
   [string]$TestRootCaPath = $env:BANKID_TEST_ROOT_CA_PATH,
   [string]$TestCheckIp = $env:BANKID_TEST_CHECK_IP,
   [string]$ProductionUrl = $env:BANKID_PRODUCTION_URL,
@@ -65,4 +65,4 @@ if ($LASTEXITCODE -ne 0) { throw 'Backend API deployment failed.' }
 "Backend API: $($outputs.backendName.value)"
 "Backend API address: $($outputs.backendUrl.value)"
 "Only $WebSiteUrl may call it from a browser."
-'The roles on the Key Vaults can take a few minutes to take effect. Then run 04_deploy-backendapi.ps1.'
+'The roles on the Key Vaults can take a few minutes to take effect. Then run 03_deploy-backendapi.ps1.'

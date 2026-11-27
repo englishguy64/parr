@@ -1,5 +1,5 @@
-# Creates the web site in Azure: an App Service on the plan that 03_create-backendapi.ps1 made, with BACKEND_API_URL pointing
-# at the Backend API. 06_deploy-webapp.ps1 deploys the code. Every setting is an environment variable and none has a default.
+# Creates the web site in Azure: an App Service on the plan that 02_create-backendapi.ps1 made, with BACKEND_API_URL pointing
+# at the Backend API. 05_deploy-webapp.ps1 deploys the code. Every setting is an environment variable and none has a default.
 #
 # Names are built from the RECIPE_PREFIX environment variable, a unique prefix for this recipe such as thunderbirdsarego, as in the
 # Use-An-Azure-Web-App recipe (use a different prefix from that recipe if you deploy both):
@@ -28,4 +28,4 @@ if ($LASTEXITCODE -ne 0) { throw 'Web site deployment failed.' }
 "Web site: $($outputs.webAppName.value)"
 "Web site address: $($outputs.webAppUrl.value)"
 "It calls the Backend API at $backendApiUrl"
-'Then run 06_deploy-webapp.ps1.'
+'Then run 05_deploy-webapp.ps1.'

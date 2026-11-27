@@ -5,8 +5,8 @@
 #   Backend API    <prefix>-api      web site <prefix>-web      vaults <prefix, 15 characters>-bid-test and -bid-prod
 # Everything is created in the region of the resource group. Pass a parameter such as -ResourceGroup to choose a name yourself.
 #
-# The test certificate is uploaded to the test vault by 02_upload-test-certificate-to-keyvault.ps1.
-# The production certificate is NOT uploaded by any script. You upload it by hand to the production vault, see the README.
+# No script uploads a certificate. You upload the test certificate to the test vault and the production certificate to the
+# production vault by hand, see the README.
 param(
   [string]$ResourceGroup = "${env:RECIPE_PREFIX}-rg1",
   [string]$TestKeyVaultName = (((("${env:RECIPE_PREFIX}".ToLower()) -replace '[^a-z0-9]', '') -replace '^(.{1,15}).*$', '$1') + '-bid-test'),
@@ -24,8 +24,8 @@ if ($LASTEXITCODE -ne 0 -or -not $account) { throw 'Run az login first.' }
 "Tenant:       $($account.tenantId)"
 "Subscription: $($account.subscription) ($($account.subscriptionId))"
 
-# The person who runs this script gets the Key Vault Certificates Officer role on both vaults: the test vault so that
-# 02_upload-test-certificate-to-keyvault.ps1 can upload, and the production vault so that you can upload the production certificate by hand.
+# The person who runs this script gets the Key Vault Certificates Officer role on both vaults, so that you can upload the test
+# and the production certificate by hand.
 $uploaderId = az ad signed-in-user show --query id -o tsv
 if ($LASTEXITCODE -ne 0 -or -not $uploaderId) { throw 'Could not read your object id. Run az login first.' }
 
@@ -46,5 +46,4 @@ foreach ($vault in @($TestKeyVaultName, $ProductionKeyVaultName)) {
   "Key Vault: $($outputs.keyVaultName.value)   $($outputs.keyVaultUri.value)"
 }
 
-'Role assignments can take a few minutes to take effect. Then run 02_upload-test-certificate-to-keyvault.ps1 for the test certificate.'
-'The production certificate is uploaded by hand to the production vault. See the README.'
+'Role assignments can take a few minutes to take effect. Then upload the test and the production certificate by hand, see the README.'

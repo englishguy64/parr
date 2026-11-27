@@ -9,7 +9,7 @@
 // The solution works in Azure only. If the page is opened on localhost (for example with dotnet run on a PC) there is no Backend
 // API to call, so the sign in is fake: this app answers the sign in calls itself and the page says so. Nothing is sent to BankID.
 //
-// Setting (App Service application setting in Azure, set by 05_create-webapp.ps1). It is not a secret and it has no default:
+// Setting (App Service application setting in Azure, set by 04_create-webapp.ps1). It is not a secret and it has no default:
 //   BACKEND_API_URL   the address of the Backend API, for example https://<prefix>-api.azurewebsites.net
 using System.Collections.Concurrent;
 using System.Net;

@@ -22,7 +22,7 @@ Browser ──(GET /config.json)────────────────
 |--------|---------|
 | `website` | A small ASP.NET app. `Program.cs` serves the page in `wwwroot` and `/config.json`. `wwwroot` is `index.html`, `app.js`, `styles.css` and `lib/qrcode.js`, the MIT licensed [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) that draws the QR code. On localhost it answers the sign in calls itself with a fake sign in
 | `backendapi` | ASP.NET minimal API on .NET 10. `Program.cs` has the endpoints, `BankIdClients.cs` reads the certificates from Azure Key Vault, `BankIdClient.cs` calls BankID API v6.0, `BankIdOptions.cs` reads the settings. `certs/` holds the public BankID root CA files |
-| `azure` | Numbered Bicep and PowerShell scripts that create the Key Vaults, upload the test certificate and create and deploy the Backend API and the web site |
+| `azure` | Numbered Bicep and PowerShell scripts that create the Key Vaults and create and deploy the Backend API and the web site. The certificates are uploaded by hand |
 
 ## Why the web site needs a Backend API
 
@@ -56,7 +56,7 @@ The web site has a **BankID Environment** option, Test or Production. The choice
 |---------|------|------------|
 | `..._URL` | `https://appapi2.test.bankid.com/rp/v6.0/` | `https://appapi2.bankid.com/rp/v6.0/` |
 | `..._KEYVAULT_URI` | The test Key Vault | The production Key Vault, a separate vault |
-| `..._CERTIFICATE_NAME` (Key Vault) | `fptestcert5`, the public BankID test certificate FPTestcert5. Uploaded by script | for example `bankid-production-certificate` (ordered from your bank). **Uploaded by hand** |
+| `..._CERTIFICATE_NAME` (Key Vault) | `fptestcert5`, the public BankID test certificate FPTestcert5. **Uploaded by hand** | for example `bankid-production-certificate` (ordered from your bank). **Uploaded by hand** |
 | `..._ROOT_CA_PATH` | `certs/Test-BankID-SSL-Root-CA-v1-Test.pem` | `certs/BankID-SSL-Root-CA-v1.pem` |
 | `..._CHECK_IP` | `false` (the phone may be on another network than the browser) | `true` |
 | BankID app | Configured for test, with a Test BankID | The real BankID |
@@ -73,22 +73,21 @@ Nothing has a default value. The apps and the scripts read environment variables
 
 | Variable | Meaning |
 |----------|---------|
-| `BACKEND_API_URL` | The address of the Backend API. The page calls it directly. Script 05 sets it in Azure. It has no default: without it the web site answers "BACKEND_API_URL is not set" (on localhost it is not used, the sign in is fake) |
+| `BACKEND_API_URL` | The address of the Backend API. The page calls it directly. Script 04 sets it in Azure. It has no default: without it the web site answers "BACKEND_API_URL is not set" (on localhost it is not used, the sign in is fake) |
 
 **Backend API** (`backendapi/BankIdOptions.cs`):
 
 | Variable | Meaning |
 |----------|---------|
 | `BANKID_WEBSITE_URL` | The address of the web site in Azure. It is the only address allowed to call the Backend API from a browser, and BankID returns a phone user to it after the BankID app. Script 03 builds it as `https://<prefix>-web.azurewebsites.net/` |
-| `BANKID_TEST_URL`, `BANKID_TEST_KEYVAULT_URI`, `BANKID_TEST_CERTIFICATE_NAME`, `BANKID_TEST_ROOT_CA_PATH`, `BANKID_TEST_CHECK_IP` | The test environment, see the table above. Script 03 and the Bicep set the vault address from the test vault, and the certificate name to `fptestcert5` |
+| `BANKID_TEST_URL`, `BANKID_TEST_KEYVAULT_URI`, `BANKID_TEST_CERTIFICATE_NAME`, `BANKID_TEST_ROOT_CA_PATH`, `BANKID_TEST_CHECK_IP` | The test environment, see the table above. Script 02 and the Bicep set the vault address from the test vault, and the certificate name to `fptestcert5` |
 | `BANKID_PRODUCTION_URL`, `BANKID_PRODUCTION_KEYVAULT_URI`, `BANKID_PRODUCTION_CERTIFICATE_NAME`, `BANKID_PRODUCTION_ROOT_CA_PATH`, `BANKID_PRODUCTION_CHECK_IP` | The production environment |
 
-**The scripts** read the Backend API variables above (script 03 passes them to the Bicep), plus these:
+**The scripts** read the Backend API variables above (script 02 passes them to the Bicep), plus these:
 
 | Variable | Used by | Meaning |
 |----------|---------|---------|
-| `RECIPE_PREFIX` | 01 to 06 | A unique prefix for this recipe, such as `thunderbirdsarego`, that names every resource. You set it, see below |
-| `BANKID_TEST_CERTIFICATE_PATH` | 02 | Where you saved the test certificate file `FPTestcert5_20240610.p12`. Its password and its Key Vault name are public, see below |
+| `RECIPE_PREFIX` | 01 to 05 | A unique prefix for this recipe, such as `thunderbirdsarego`, that names every resource. You set it, see below |
 
 **Every name is built from `RECIPE_PREFIX`, the prefix of this recipe. It is not the tenant, and it works like `TENANT_PREFIX` in the Use An Azure Web App recipe.** Many Azure names must be globally unique, so you choose a prefix once, for example `$env:RECIPE_PREFIX = 'thunderbirdsarego'`, and the scripts build the names:
 
@@ -105,7 +104,7 @@ These are the same names the Foundry recipe builds, so use a different prefix fo
 
 **You create the resource group by hand**, in the Azure portal or with `az group create -n <prefix>-rg1 -l <region>`. The scripts never create or change it. They stop with a message if it doesn't exist. Everything is created in the region of that group. The tenant and subscription are never set: they are the ones `az` is signed in to, and the resources are created there. If you have several subscriptions, select one first with `az account set --subscription <name>`.
 
-There is no variable for the production certificate file or its password. That certificate never goes through a script, a Bicep file or an environment variable, see [Upload the production certificate by hand](#upload-the-production-certificate-by-hand).
+There is no variable for a certificate file or its password. Neither certificate goes through a script, a Bicep file or an environment variable, see [Upload the certificates by hand](#upload-the-certificates-by-hand).
 
 ## Deploy to Azure
 
@@ -117,24 +116,23 @@ $env:RECIPE_PREFIX = 'thunderbirdsarego'                # names everything, see 
 az group create -n "$env:RECIPE_PREFIX-rg1" -l <region>   # you create the resource group by hand
 ./azure/01_create-keyvault.ps1                           # the test and production Key Vaults in your resource group
 
-$env:BANKID_TEST_CERTIFICATE_PATH = '<path>\FPTestcert5_20240610.p12'
-./azure/02_upload-test-certificate-to-keyvault.ps1       # deploys the TEST certificate to the test Key Vault. Nothing for production
+# upload the test and the production certificate to their vaults by hand, see "Upload the certificates by hand" below.
+# They are only needed when you use the web site, so you can do it before or after the scripts below.
 
 # the rest of the Backend API variables, see the tables above
-./azure/03_create-backendapi.ps1                         # App Service plan and Backend API, application settings, Key Vault Secrets User roles
-./azure/04_deploy-backendapi.ps1                         # publishes the Backend API and deploys it
-./azure/05_create-webapp.ps1                             # the web site, with BACKEND_API_URL
-./azure/06_deploy-webapp.ps1                             # publishes the web site and deploys it
+./azure/02_create-backendapi.ps1                         # App Service plan and Backend API, application settings, Key Vault Secrets User roles
+./azure/03_deploy-backendapi.ps1                         # publishes the Backend API and deploys it
+./azure/04_create-webapp.ps1                             # the web site, with BACKEND_API_URL
+./azure/05_deploy-webapp.ps1                             # publishes the web site and deploys it
 ```
 
 1. `01_create-keyvault.ps1` creates two vaults, one for test and one for production, with Azure role based access, soft delete and purge protection. A deleted certificate cannot be purged for 90 days. You get the Key Vault Certificates Officer role on both, so you can upload
-2. `02_upload-test-certificate-to-keyvault.ps1` imports the **test** certificate into the **test** vault. Download it from the [BankID test portal](https://developers.bankid.com/test-portal/test-information). The password, `qwerty123`, and the Key Vault name, `fptestcert5`, are the public values BankID gives for its test certificate, so they are written in the script. It does nothing with the production vault
-3. `03_create-backendapi.ps1` creates the App Service plan and the Backend API (Linux, .NET 10, https only) with a system assigned identity, and gives that identity the Key Vault Secrets User role on both vaults. The Backend API reads the certificates with that identity. There is no password or key in the application settings
-4. `04_deploy-backendapi.ps1` runs `dotnet publish` on `backendapi` and deploys the zip
-5. `05_create-webapp.ps1` creates the web site on the same plan, with `BACKEND_API_URL` set to the Backend API
-6. `06_deploy-webapp.ps1` runs `dotnet publish` on `website` and deploys the zip
+2. `02_create-backendapi.ps1` creates the App Service plan and the Backend API (Linux, .NET 10, https only) with a system assigned identity, and gives that identity the Key Vault Secrets User role on both vaults. The Backend API reads the certificates with that identity. There is no password or key in the application settings
+3. `03_deploy-backendapi.ps1` runs `dotnet publish` on `backendapi` and deploys the zip
+4. `04_create-webapp.ps1` creates the web site on the same plan, with `BACKEND_API_URL` set to the Backend API
+5. `05_deploy-webapp.ps1` runs `dotnet publish` on `website` and deploys the zip
 
-Role assignments can take a few minutes to take effect. Then open the web site address that script 05 prints. Settings that Bicep creates are replaced every time you run the script again, so change a value by setting the variable and running the script, not by editing it in the portal.
+Role assignments can take a few minutes to take effect. Then open the web site address that script 04 prints. Settings that Bicep creates are replaced every time you run the script again, so change a value by setting the variable and running the script, not by editing it in the portal.
 
 ## On localhost the sign in is fake
 
@@ -152,19 +150,27 @@ dotnet run
 
 The Backend API does not run locally. It would need your Key Vault certificates and, for the production option, a page from the Azure web site.
 
-## Upload the production certificate by hand
+## Upload the certificates by hand
 
-The production certificate is the secret that proves your organisation to BankID. No script and no Bicep file deploys it, and no environment variable holds it or its password. `01_create-keyvault.ps1` creates the empty production vault, and you put the certificate in it yourself once your bank has issued it:
+No script and no Bicep file deploys a certificate, and no environment variable holds one or its password. `01_create-keyvault.ps1` creates the two empty vaults and gives you the Key Vault Certificates Officer role on both, and you put the certificates in yourself. Bicep cannot do it: it can only create a plain secret in Key Vault, not import a PKCS#12 (`.p12` or `.pfx`) certificate. Key Vault's own import also removes the file's password, which is what the Backend API relies on when it loads the certificate.
 
-1. Get the certificate from your bank. You create the request with BankID's Keygen tool and your bank returns the signed certificate, and Keygen builds the PKCS#12 (`.p12` or `.pfx`) file. See [Request a certificate](https://developers.bankid.com/getting-started/order-certificate/request-a-certificate). The password is the one you chose
-2. Open the **production** Key Vault in the Azure portal. You need the Key Vault Certificates Officer role on it. Script 01 gave it to whoever ran the script, and anyone else needs it assigned under **Access control (IAM)**
-3. Go to **Objects → Certificates → Generate/Import**
-4. Set **Method of Certificate Creation** to **Import**
-5. Set **Certificate Name** to exactly the value of `BANKID_PRODUCTION_CERTIFICATE_NAME` that you gave script 03, for example `bankid-production-certificate`
-6. Upload the `.p12` or `.pfx` file, enter its password, and select **Create**
-7. Open the web site and choose **Production**. The Backend API reads the certificate the first time production is used. If it was used before the certificate existed, the next attempt tries again
+The steps in the Azure portal are the same for both certificates. Open the Key Vault, go to **Objects → Certificates → Generate/Import**, set **Method of Certificate Creation** to **Import**, enter the certificate name, upload the file, enter its password and select **Create**. Anyone other than the person who ran script 01 needs the Key Vault Certificates Officer role on the vault, under **Access control (IAM)**.
 
-When the certificate is renewed, upload the new file under the same name, which adds a new version, and restart the Backend API so that it loads it. Delete the file from your PC when you have uploaded it, and keep the password in your password manager, not in a script.
+**The test certificate, into the test vault.** BankID publishes it for everyone, so there is nothing secret about it:
+1. Download the zip from the [BankID test portal](https://developers.bankid.com/test-portal/test-information) and unzip it. Use `FPTestcert5_20240610.p12`. If Key Vault refuses it, use the legacy `.pfx` from the same zip
+2. Open the **test** Key Vault (`<prefix, 15 characters>-bid-test`)
+3. Use the certificate name **`fptestcert5`**. Script 02 gives the Backend API exactly this name, so it must match
+4. The password is **`qwerty123`**. BankID publishes it, in the README inside the zip and on its test page. It only works against BankID's test servers
+
+**The production certificate, into the production vault.** It is the secret that proves your organisation to BankID. It comes from your bank, and BankID says it must be requested from the bank you have an agreement with:
+1. Get the certificate from your bank. You create the request with BankID's Keygen tool and your bank returns the signed certificate, and Keygen builds the PKCS#12 file. See [Request a certificate](https://developers.bankid.com/getting-started/order-certificate/request-a-certificate). The password is the one you chose
+2. Open the **production** Key Vault (`<prefix, 15 characters>-bid-prod`)
+3. Use the certificate name you gave script 02 in `BANKID_PRODUCTION_CERTIFICATE_NAME`, for example `bankid-production-certificate`
+4. Upload the file and enter the password you chose
+
+Then open the web site and choose **Test** or **Production**. The Backend API reads each certificate the first time that environment is used. If it was used before the certificate existed, the next attempt tries again. When a certificate is renewed, upload the new file under the same name, which adds a new version, and restart the Backend API so that it loads it. Delete the file from your PC when you have uploaded it, and keep the production password in your password manager, not in a script.
+
+BankID's [Environments](https://developers.bankid.com/getting-started/environments) page describes the two environments and states that test and production use different certificates. A test certificate cannot be used against production.
 
 ## Test it
 
@@ -185,7 +191,7 @@ If something goes wrong the web site shows the message from the Backend API, for
 7. The `qrStartSecret` kept in the Backend API, and `/collect` called every 2 seconds
 8. The certificate renewed before it expires
 
-Also for production: serve the web site on your own https domain and give `03_create-backendapi.ps1` that address with `-WebSiteUrl`, replace the in-memory orders and sessions in `Program.cs` with a shared cache if you run more than one instance, and follow BankID's guidelines for texts and graphics.
+Also for production: serve the web site on your own https domain and give `02_create-backendapi.ps1` that address with `-WebSiteUrl`, replace the in-memory orders and sessions in `Program.cs` with a shared cache if you run more than one instance, and follow BankID's guidelines for texts and graphics.
 
 ## Docs
 

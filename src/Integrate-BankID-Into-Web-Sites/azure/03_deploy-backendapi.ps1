@@ -1,18 +1,18 @@
-# Publishes the web site (the code in ../website) and deploys it to the web site App Service created by the script before this one.
+# Publishes the Backend API (the code in ../backendapi, with the public BankID root CA files in certs/) and deploys it to the Backend API App Service created by the script before this one.
 # Every setting is an environment variable and none has a default.
 #
-#   RECIPE_PREFIX   names the resource group and the web site, as in 03_create-backendapi.ps1
+#   RECIPE_PREFIX   names the resource group and the Backend API, as in 02_create-backendapi.ps1
 param(
   [string]$ResourceGroup = "${env:RECIPE_PREFIX}-rg1",
-  [string]$WebAppName = "${env:RECIPE_PREFIX}-web"
+  [string]$BackendName = "${env:RECIPE_PREFIX}-api"
 )
 $ErrorActionPreference = 'Stop'
 if (-not $env:RECIPE_PREFIX) { throw 'Set the RECIPE_PREFIX environment variable first, for example:  $env:RECIPE_PREFIX = ''thunderbirdsarego''' }
 
 if ((az group exists -n $ResourceGroup) -ne 'true') { throw "Resource group $ResourceGroup does not exist." }
 
-$project = Join-Path $PSScriptRoot '..\website\website.csproj'
-$publish = Join-Path ([System.IO.Path]::GetTempPath()) 'bankid-website-publish'
+$project = Join-Path $PSScriptRoot '..\backendapi\backendapi.csproj'
+$publish = Join-Path ([System.IO.Path]::GetTempPath()) 'bankid-backendapi-publish'
 $zip = "$publish.zip"
 
 if (Test-Path $publish) { Remove-Item $publish -Recurse -Force }
@@ -34,8 +34,8 @@ try {
   }
 } finally { $archive.Dispose() }
 
-az webapp deploy -g $ResourceGroup -n $WebAppName --src-path $zip --type zip
+az webapp deploy -g $ResourceGroup -n $BackendName --src-path $zip --type zip
 if ($LASTEXITCODE -ne 0) { throw 'Deployment failed.' }
 
-$address = az webapp show -g $ResourceGroup -n $WebAppName --query defaultHostName -o tsv
-"Deployed the web site. Address: https://$address/"
+$address = az webapp show -g $ResourceGroup -n $BackendName --query defaultHostName -o tsv
+"Deployed the Backend API. Address: https://$address/"
